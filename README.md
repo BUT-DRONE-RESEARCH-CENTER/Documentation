@@ -1,4 +1,4 @@
-# 🛸 Drone Research Center (DRC) | Documentation Hub
+# 🚁 Drone Research Center | Documentation Hub
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
@@ -42,5 +42,3 @@ Every researcher has a dedicated file within the specific project folder to trac
 The `main.md` file exists in every project folder and serves as the official/final project record.
 * **Workflow:** Upon conclusion or a major milestone, individual logs are summarized and merged into `main.md`.
 * **Content:** Final architectures, installations, consolidated results, and conclusions.
-
-
