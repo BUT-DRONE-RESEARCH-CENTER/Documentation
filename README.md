@@ -33,7 +33,7 @@ The final destination for completed research. Once a project reaches a milestone
 To maintain accountability and organized knowledge transfer, all members must follow this workflow:
 
 ### 1. Individual Progress Logs
-Every researcher has a dedicated file within the specific project folder to track their private progress.
+Every member has a dedicated file within the specific project folder to track their private progress.
 * **Location:** `Projects/Category/ProjectName/YourName.md`
 * **Example:** `Projects/Software/ICUAS/Adam.md`
 * **Frequency:** Update this file **weekly** with tasks, bugs, and data logs.
