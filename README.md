@@ -44,32 +44,3 @@ The `main.md` file exists in every project folder and serves as the official/fin
 * **Content:** Final architectures, installations, consolidated results, and conclusions.
 
 
-## 🚀 Contributor's Quickstart
-
-We use **MkDocs Material** to render these files into a searchable web interface.
-
-### Local Setup & Preview
-1. **Install Dependencies:**
-   ```bash
-   pip install mkdocs-material mkdocs-minify-plugin
-
-## 🚀 Contributor's Quickstart
-
-We use **MkDocs Material** to render these markdown files into a searchable web interface.
-
-### 1. Environment Setup
-```bash
-# Install the documentation engine
-pip install mkdocs-material mkdocs-minify-plugin mkdocs-git-revision-date-localized-plugin
-```
-### 2. Local Development
-
-Run the live server to preview your changes as you type:
-```bash
-mkdocs serve
-```
-Access the preview at ```http://127.0.0.1:8000```
-
-
-
-
