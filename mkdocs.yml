@@ -48,6 +48,6 @@ copyright: "Copyright &copy; 2026 DRC Wiki (brought to you by <a href='https://g
 
 plugins:
   - search
-  - awesome-nav
+  - awesome-pages
 
 
