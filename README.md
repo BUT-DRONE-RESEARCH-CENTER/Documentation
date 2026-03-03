@@ -12,7 +12,7 @@
 This repository hosts the technical documentation for all (in)active projects within the lab. It is designed to be a collaborative knowledge base for researchers, engineers, and students.
 
 
-[**Explore the Docs »**](https://your-github-pages-link.com](https://github.com/BUT-DRONE-RESEARCH-CENTER/Documentation](https://but-drone-research-center.github.io/Documentation/)](https://but-drone-research-center.github.io/Documentation/ )
+[**Explore the Docs »**](https://but-drone-research-center.github.io/Documentation/ )
 
 ## 🏠 [Home](./docs/index.md)
 The central landing page. Contains core documentation info, lab mission statements, and general announcements.
