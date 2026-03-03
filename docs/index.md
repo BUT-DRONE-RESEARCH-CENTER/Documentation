@@ -3,9 +3,8 @@ title: Home
 ---
 # Welcome to Drone Research Center | Wiki
 
-Toto je oficiální stránka pro dokumentaci DRC projektů
-
-Cooked up from this guy's yt video: [-> link here <-](https://www.youtube.com/watch?v=xlABhbnNrfI)
+![Don't reinvent the wheel](images/reinvent_the_wheel.jpg)
+> Image copied from [roboticsbackend.com/what-is-ros](https://roboticsbackend.com/what-is-ros/)
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
@@ -46,12 +45,14 @@ To maintain accountability and organized knowledge transfer, all members must fo
 
 ### 1. Individual Progress Logs
 Every member maintains a dedicated "Dev Diary" within their specific project folder.
+
 * **Location:** `Projects/Category/ProjectName/YourName.md` (e.g., `Projects/Software/ICUAS/Adam.md`)
 * **Frequency:** Update **weekly** with tasks, bugs, and raw data logs.
 * **Context:** Document the "failures" too—knowing why a $PID$ tune failed is as important as the final values.
 
 ### 2. The Project Master (`main.md`)
 The official/final project record located in every project folder.
+
 * **Workflow:** Upon reaching a major milestone, individual logs are summarized and merged into `main.md`.
 * **Content:** Final architectures, installation guides, and consolidated conclusions.
 
@@ -59,11 +60,13 @@ The official/final project record located in every project folder.
 To keep this wiki clean, follow the **Signal-over-Noise** principle:
 
 **✅ What to Write:**
+
 * **The "Why":** Explain the logic (e.g., why we chose $LQR$ control over $PID$ for a specific frame).
 * **Versioning:** Specify exact firmware, OS (e.g., Ubuntu 22.04), and hardware revisions.
 * **SOPs:** **Standard Operation Procedures**--Step-by-step guides that a new member could follow without supervision.
 
 **❌ What NOT to Write:**
+
 * **Redundant Manuals:** Don't copy-paste the Betaflight or ArduPilot wiki. **Link to it**!
 * **Ephemeral Data:** Don't document daily weather or current battery voltages, unless it is specifically required. Keep it evergreen.
 * **Unverified Hacks:** If you bypassed a safety sensor, label it as a **temporary workaround**, not a standard procedure.

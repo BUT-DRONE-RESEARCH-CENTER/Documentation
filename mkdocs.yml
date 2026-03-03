@@ -1,5 +1,9 @@
 site_name: DRC Wiki
 site_url: https://drc-wiki.github.io/
+
+repo_url: https://github.com/BUT-DRONE-RESEARCH-CENTER/Documentation
+repo_name: Documentation
+
 theme: 
   name: material
   logo: images/Dron_DRC_BUT_WB.png
