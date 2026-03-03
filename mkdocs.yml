@@ -1,0 +1,47 @@
+site_name: DRC Wiki
+site_url: https://drc-wiki.github.io/
+theme: 
+  name: material
+  logo: images/DRC_logo.png
+  favicon: images/DRC_logo.png
+  palette: 
+    - scheme: default
+      primary: red
+      accent: deep orange
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: red
+      accent: deep orange
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+markdown_extensions:
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/omichalcik
+
+copyright: "Copyright &copy; 2026 DRC Wiki (brought to you by <a href='https://github.com/omichalcik'>The GOATEST programmer</a>)"
