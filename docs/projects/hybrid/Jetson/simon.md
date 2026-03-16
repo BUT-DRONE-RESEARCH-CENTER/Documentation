@@ -7,7 +7,7 @@
 
 ## Procedure 
 
-1. Connect the PC and Jetson with Ethernet
+1. Connect the PC and Jetson with Ethernet cable
 2. In your PC go to **Control Panels** and select **Network and Internet → Network and Sharing Center**
 3. At the left panel select **Change adapter settings** (new pop-up window will appear)
 4. Select your source of internet (Wifi, Ethernet etc.), right click and select **Properties**
