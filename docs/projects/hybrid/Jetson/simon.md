@@ -1,3 +1,23 @@
+# Setup the Internet connection through ethernet for Jetson (Windows → Jetson Orin NX 16GB + Waveshare Jetson IO base)
+
+## Prerequisites
+1. Windows PC
+2. Jetson Orin NX (Jetpack 6.1.)
+3. Jetson carrier that supports Ethernet
+
+## Procedure 
+
+1. Connect the PC and Jetson with Ethernet cable
+2. In your PC go to **Control Panels** and select **Network and Internet → Network and Sharing Center**
+3. At the left panel select **Change adapter settings** (new pop-up window will appear)
+4. Select your source of internet (Wifi, Ethernet etc.), right click and select **Properties**
+5. At the new pop-up window, switch to **Sharing** at a top
+6. In the **Internet Connection Sharing** section turn on the **Allow other network users to connect through this computer's internet connection**
+7. In column **Home networking connection** select the connection with the Jetson (probably Ethernet or Ethernet 1 or something like that)
+
+After a minute or so, the Jetson will be able to connect to the internet without any other packages.
+
+
 # Setup the wifi (iwlwifi package) for Jetpack 6.1. (Jetson Orin NX 16GB + Waveshare Jetson IO base)
 
 >Fully documented and solved issue on Nvidia forum:
