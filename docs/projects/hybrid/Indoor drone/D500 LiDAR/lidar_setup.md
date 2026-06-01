@@ -1,5 +1,5 @@
 
-# Dokumentace: Zprovoznění LiDARu D500 (STL-19P) na Raspberry Pi 5 s ROS 2
+# Zprovoznění LiDARu D500 (STL-19P) na Raspberry Pi 5 s ROS 2
 
 Tato dokumentace popisuje kompletní postup konfigurace minipočítače **Raspberry Pi 5 (4GB RAM)** s operačním systémem **Raspbian (Debian Bookworm)** pro provoz 360° laserového skeneru **D500 LiDAR Kit (STL-19P)** od DFRobot. 
 
