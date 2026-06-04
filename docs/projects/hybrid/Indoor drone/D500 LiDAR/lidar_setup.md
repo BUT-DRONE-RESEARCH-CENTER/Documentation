@@ -59,7 +59,7 @@ Ve výpisu musíte vidět `/dev/ttyAMA0` (Ardupilot) i `/dev/ttyAMA1` (LiDAR).
 Nainstalujte Docker pomocí oficiálního automatického skriptu:
 
 ```bash
-curl -fsSL [https://get.docker.com](https://get.docker.com) -o get-docker.sh && sudo sh get-docker.sh
+curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh
 ```
 
 ### Krok 3.2: Nastavení uživatelských oprávnění
@@ -118,7 +118,7 @@ Vytvořte ROS 2 pracovní prostor (workspace) a stáhněte oficiální repozitá
 
 ```bash
 mkdir -p /ros2_ws/src && cd /ros2_ws/src
-git clone [https://github.com/ldrobotSensorTeam/ldlidar_stl_ros2.git](https://github.com/ldrobotSensorTeam/ldlidar_stl_ros2.git)
+git clone https://github.com/ldrobotSensorTeam/ldlidar_stl_ros2.git
 ```
 
 ### Krok 5.3: Změna konfigurace na správný sériový port
