@@ -1,0 +1,86 @@
+# Rpicam FRAMOS full param list
+
+## Rozlišení a rychlost
+
+| Parametr | Typ / Rozsah | Výběr možností / Popis |
+| :--- | :--- | :--- |
+| `width` | Číslo (64 až 1456) | Šířka videa v pixelech (pro IMX900M je maximum 1456). |
+| `height` | Číslo (64 až 1088) | Výška videa v pixelech (pro IMX900M je maximum 1088). |
+| `framerate` | Číslo (0.0 až 120.0+) | Snímková frekvence za sekundu. Hodnota `0` znamená automaticky dle expozice. |
+| `timeout` | Číslo (0 až N) | Doba běhu nahrávání v milisekundách. Hodnota `0` znamená nekonečno (vypnutí ručně přes Ctrl+C). |
+
+---
+
+## Expozice a senzor
+
+| Parametr | Typ / Rozsah | Výběr možností / Popis |
+| :--- | :--- | :--- |
+| `exposure` | Výběr možností | Profil automatické expozice:<br>• `normal` (standardní)<br>• `sport` (preferuje krátký čas/vhodné pro dron)<br>• `long` (pro noční scény)<br>• `short`<br>• `custom` |
+| `shutter` | Číslo (0 až 66000000) | Manuální čas expozice v mikrosekundách. Hodnota `0` zapne automatiku. |
+| `gain` | Číslo (1.0 až 16.0+) | Manuální zisk (citlivost senzoru). Hodnota `0.0` zapne automatiku. |
+| `ev` | Číslo (-10.0 až 10.0) | Kompenzace expozice pro automatiku (v krocích po 0.1). Výchozí `0.0`. |
+| `metering` | Výběr možností | Metoda měření světla pro expozici:<br>• `centre-weighted` (středové – doporučeno pro dron)<br>• `spot` (bodové)<br>• `matrix` (celoplošná matice)<br>• `custom` |
+| `awb` | Výběr možností | *Ignorováno u Monochrómu.* Režim vyvážení bílé:<br>• `auto`, `incandescent`, `tungsten`, `fluorescent`, `indoor`, `daylight`, `cloudy`, `custom` |
+| `awbgains` | Dvě čísla (0.0,0.0) | *Ignorováno u Monochrómu.* Fixní zisk pro červenou a modrou složku (např. `1.5,2.0`). |
+| `denoise` | Výběr možností | Režim redukce šumu:<br>• `off` (zcela vypnuto)<br>• `cdn_off` (vypnutá barevná složka – ideální pro drony/redukuje latenci)<br>• `cdn_fast` (rychlá redukce)<br>• `cdn_high` (vysoká kvalita redukce)<br>• `auto` |
+| `tuning-file` | Cesta k souboru | Cesta k vlastnímu ladicímu JSON souboru kamery (např. `/usr/share/libcamera/ipa/rpi/vc4/imx900.json`). |
+
+---
+
+## Úpravy obrazu
+
+| Parametr | Typ / Rozsah | Výběr možností / Popis |
+| :--- | :--- | :--- |
+| `brightness` | Číslo (-1.0 až 1.0) | Digitální nastavení jasu. Výchozí je `0.0`. |
+| `contrast` | Číslo (0.0 až 15.9) | Nastavení kontrastu obrazu. Výchozí je `1.0`. |
+| `saturation` | Číslo (0.0 až 15.9) | *Ignorováno u Monochrómu.* Nastavení sytosti barev. Výchozí je `1.0`. |
+| `sharpness` | Číslo (0.0 až 15.9) | Nastavení digitálního doostření hran. Výchozí je `1.0`. |
+
+---
+
+## Geometrie a orientace
+
+| Parametr | Typ / Rozsah | Výběr možností / Popis |
+| :--- | :--- | :--- |
+| `hflip` | Binární (0 nebo 1) | `1` překlopí obraz horizontálně (zrcadlově). Výchozí `0`. |
+| `vflip` | Binární (0 nebo 1) | `1` překlopí obraz vertikálně (vzhůru nohama). Výchozí `0`. |
+| `rotation` | Výběr možností | Otočení obrazu ve směru hodinových ručiček:<br>• `0`, `90`, `180`, `270` |
+| `roi` | Čtyři čísla (0.0 až 1.0) | Výřez ze senzoru (Region of Interest) ve formátu `X,Y,šířka,výška`. Např. `0.25,0.25,0.5,0.5` udělá 2x digitální zoom na střed. |
+
+---
+
+## Kódování a Výstup
+
+| Parametr | Typ / Rozsah | Výběr možností / Popis |
+| :--- | :--- | :--- |
+| `codec` | Výběr možností | Formát komprese videa:<br>• `h264` (standardní hardwarový kodek)<br>• `mjpeg` (sekvence JPEG snímků)<br>• `yuv420` (nekomprimovaná raw data)<br>• `libav` (softwarové kódování přes FFmpeg) |
+| `bitrate` | Číslo (0 až 100000000) | Datový tok v bitech za sekundu (pouze pro H.264). Např. `25000000` pro 25 Mbps. `0` zapne automatiku. |
+| `profile` | Výběr možností | H.264 profil:<br>• `baseline`<br>• `main`<br>• `high` (nejlepší kvalita/efektivita) |
+| `level` | Výběr možností | H.264 úroveň komprese:<br>• `4.0`, `4.1`, `4.2` |
+| `intra` | Číslo (1 až N) | Perioda klíčových snímků (I-Frame). Hodnota `30` při 60 fps znamená klíčový snímek každou 0.5 vteřinu. |
+| `inline` | Binární (0 nebo 1) | `1` vloží PPS/SPS hlavičky před každý I-frame. Zabraňuje poškození celého videa při výpadku napájení dronu. |
+| `quality` | Číslo (1 až 100) | Kvalita komprese (pouze pro režim `codec=mjpeg`). Výchozí je `50`. |
+| `output` | Text / Cesta | Cesta k výstupnímu souboru (např. `video.mp4`). Pokud zadáte `-`, posílá se na standardní výstup (stdout). |
+
+---
+
+## Pokročilé funkce a dělení souborů
+
+| Parametr | Typ / Rozsah | Výběr možností / Popis |
+| :--- | :--- | :--- |
+| `segment` | Číslo (0 až N) | Rozdělí video do souborů po určeném čase v milisekundách. Vyžaduje v názvu výstupu masku, např. `-o test%04d.mp4`. |
+| `wrap` | Číslo (0 až N) | Určuje maximální počet segmentů. Po dosažení tohoto čísla se začnou staré segmenty přepisovat (kruhová smyčka). |
+| `flush` | Binární (0 nebo 1) | `1` vynutí okamžitý zápis dat na disk bez vyrovnávací paměti (snižuje riziko ztráty dat při pádu). |
+| `listen` | Binární (0 nebo 1) | `1` způsobí, že Raspberry Pi čeká na síťové připojení klienta před spuštěním streamu. |
+| `metadata` | Text / Cesta | Uloží podrobná metadata o každém snímku (čas, expozice, zisk) do samostatného souboru ve formátu JSON. |
+
+---
+
+## Chování aplikace (Systémové)
+
+| Parametr | Typ / Rozsah | Výběr možností / Popis |
+| :--- | :--- | :--- |
+| `nopreview` | Binární (0 nebo 1) | `1` zcela vypne zobrazování okna s náhledem videa (šetří výkon procesoru/RAM na dronu). |
+| `fullscreen` | Binární (0 nebo 1) | `1` spustí okno s náhledem přes celou obrazovku. |
+| `preview` | Čtyři čísla | Pozice a rozměry okna náhledu na ploše ve formátu `X,Y,šířka,výška` (např. `100,100,640,480`). |
+| `info-text` | Text | Formát textu zobrazovaného v záhlaví okna (např. `"%fps FPS / Shutter: %shutter"`). |
