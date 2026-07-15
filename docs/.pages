@@ -2,6 +2,7 @@
 nav:
   - Home: index.md
   - Projects: projects
+  - Drones: drones
   - Workshops: workshops
   - Tutorials: tutorials
   - About: About.md
