@@ -583,3 +583,16 @@ Upon successful compilation, the required binaries will be generated at the foll
    ```bash
    sudo cp ~/compiled_files_IMX900/tegra234-p3737-0000+p3701-0000-dynamic.dtbo /boot/tegra234-p3768-0000+p3767-0000-dynamic.dtbo
    ```
+
+### Driver recompilation after .dtsi change 
+   ```bash
+   cd ~/leopard_jetson_configured/Linux_for_Tegra/source
+   rm -rf kernel-devicetree/generic-dts/dtbs
+   make dtbs
+
+   # Copy new dtbo file to /boot 
+   sudo cp kernel-devicetree/generic-dts/dtbs/tegra234-p3768-0000+p3767-0000-dynamic.dtbo /boot/tegra234-p3768-0000+p3767-0000-dynamic.dtbo
+
+   # Reboot jetson 
+   sudo reboot
+   ```
