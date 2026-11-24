@@ -326,7 +326,7 @@ Do not downgrade or upgrade the original Jetson solely to make its version match
 
 Download NVIDIA SDK Manager:
 
-https://developer.nvidia.com/sdk-manager
+[https://developer.nvidia.com/sdk-manager](https://developer.nvidia.com/sdk-manager)
 
 Install the downloaded Debian package:
 
@@ -357,11 +357,9 @@ In SDK Manager:
 7. Download the required packages.
 8. Extract and prepare the downloaded BSP as needed.
 
-Download-only mode downloads the packages but may not create
-a fully prepared `Linux_for_Tegra` directory.
+Download-only mode downloads the packages but may not create a fully prepared `Linux_for_Tegra` directory.
 
-Depending on the SDK Manager installation settings, an already
-prepared BSP may be available under:
+Depending on the SDK Manager installation settings, an already prepared BSP may be available under:
 
 ```text
 ~/nvidia/nvidia_sdk/JetPack_<version>_Linux_<target>/Linux_for_Tegra/
@@ -385,7 +383,6 @@ find ~/nvidia -type d -name Linux_for_Tegra 2>/dev/null
 > **DO NOT allow SDK Manager to flash the original Jetson.** To prevent accidental flashing, keep the USB cable between the Jetson and the host computer disconnected throughout this step.
 >
 > Flashing may overwrite the existing system, resulting in irreversible data loss before a backup can be created.
-
 
 ### 3.5 Install required dependencies
 
@@ -419,7 +416,6 @@ Verify that the service is running:
 systemctl status nfs-kernel-server
 ```
 
-
 ### 3.6 Disable automatic mounting
 
 Temporarily disable automatic mounting of external storage:
@@ -428,16 +424,13 @@ Temporarily disable automatic mounting of external storage:
 sudo systemctl stop udisks2.service
 ```
 
-Automatic mounting may interfere with NVIDIA's backup
-and restore operations.
+Automatic mounting may interfere with NVIDIA's backup and restore operations.
 
-After completing all backup or restore operations,
-the service can be enabled again:
+After completing all backup or restore operations, the service can be enabled again:
 
 ```bash
 sudo systemctl start udisks2.service
 ```
-
 
 ### 3.7 Disable USB autosuspend
 
@@ -468,9 +461,7 @@ Expected output:
 -1
 ```
 
-This change is temporary and normally resets after
-rebooting the host computer.
-
+This change is temporary and normally resets after rebooting the host computer.
 
 ### 3.8 Put the Jetson into Force Recovery Mode
 
@@ -498,9 +489,7 @@ Bus 001 Device 005: ID 0955:7323 NVIDIA Corp. APX
 The APX device indicates that the Jetson is in recovery mode.
 
 > [!IMPORTANT]
-> Force Recovery Mode is not the same as a normally running
-> Jetson with a USB network connection.
-
+> Force Recovery Mode is not the same as a normally running Jetson with a USB network connection.
 
 ## 4. Backup
 
@@ -522,7 +511,6 @@ If the directory contains a previous backup, archive it before continuing (see S
 
 Never mix files from multiple backups.
 
-
 ### 4.2 Backup command syntax
 
 ```bash
@@ -543,7 +531,6 @@ Arguments:
 > VERIFY THAT THE COMMAND CONTAINS `-b`.
 >
 > Do not accidentally use `-r`, as this initiates a restore operation instead of creating a backup.
-
 
 ### 4.3 Example – Orin NX standard configuration
 
@@ -649,8 +636,7 @@ images/
 └── ...
 ```
 
-The exact names and number of files depend on the L4T version,
-partition layout, and backup tool implementation.
+The exact names and number of files depend on the L4T version, partition layout, and backup tool implementation.
 
 Inspect the partition mapping file if present:
 
@@ -669,9 +655,7 @@ Verify that:
 
 The absence of a normal Linux directory hierarchy is expected.
 
-Directories such as `/home`, `/etc`, and `/usr` are stored
-inside the filesystem backup rather than directly in `images/`.
-
+Directories such as `/home`, `/etc`, and `/usr` are stored inside the filesystem backup rather than directly in `images/`.
 
 ## 5. Archiving backups
 
@@ -692,9 +676,7 @@ It does not provide a complete backup version management system.
 >
 > Never mix partition images from different Jetsons or different backup dates.
 >
-> Never rename individual partition images, since their
-> filenames may be referenced by the partition mapping file.
-
+> Never rename individual partition images, since their filenames may be referenced by the partition mapping file.
 
 ### 5.2 Recommended directory structure
 
@@ -753,7 +735,6 @@ Move the complete backup directory:
 sudo mv tools/backup_restore/images "$BACKUP_DIR/"
 ```
 
-
 Verify that the files were moved successfully:
 
 ```bash
@@ -768,7 +749,6 @@ sudo mkdir -p tools/backup_restore/images
 ```
 
 The NVIDIA backup tool is now ready to create another backup.
-
 
 ## 6. Restore
 
@@ -790,7 +770,6 @@ The NVIDIA backup tool is now ready to create another backup.
 > Do not proceed unless the target device is intended to
 > be overwritten.
 
-
 ### 6.1 Check hardware compatibility
 
 The target Jetson should preferably have:
@@ -803,7 +782,6 @@ The target Jetson should preferably have:
 - Compatible security and bootloader configurations.
 
 Restoration between devices with different Secure Boot or fuse configurations may require additional procedures.
-
 
 ### 6.2 Select the backup
 
@@ -838,7 +816,6 @@ Verify the backup checksums if available:
 )
 ```
 
-
 ### 6.3 Prepare the restore directory
 
 Ensure that the NVIDIA working directory is empty:
@@ -867,12 +844,9 @@ Verify the destination:
 sudo ls -lh tools/backup_restore/images/
 ```
 
-Do not proceed if the working directory contains files
-from another backup.
+Do not proceed if the working directory contains files from another backup.
 
-Copy the backup rather than moving it. This preserves
-the original archived backup if the restoration fails.
-
+Copy the backup rather than moving it. This preserves the original archived backup if the restoration fails.
 
 ### 6.4 Connect the target Jetson
 
@@ -888,7 +862,6 @@ lsusb -d 0955:
 
 Ensure that only one Jetson in recovery mode is detected.
 
-
 ### 6.5 Restore command syntax
 
 ```bash
@@ -896,7 +869,6 @@ sudo ./tools/backup_restore/l4t_backup_restore.sh \
     -e <storage-device> \
     -r <board-name>
 ```
-
 
 ### 6.6 Example – Restore standard configuration
 
@@ -908,7 +880,6 @@ sudo ./tools/backup_restore/l4t_backup_restore.sh \
     -e nvme0n1 \
     -r jetson-orin-nano-devkit
 ```
-
 
 ### 6.7 Example – Restore Super configuration
 
@@ -948,8 +919,7 @@ Additionally, verify:
 - System services.
 - Peripheral communication.
 
-If the restored device will operate alongside the original,
-check for duplicated machine-specific settings:
+If the restored device will operate alongside the original, check for duplicated machine-specific settings:
 
 - Hostname.
 - Static IP addresses.
@@ -958,9 +928,7 @@ check for duplicated machine-specific settings:
 - Device identifiers used by applications.
 - Network credentials and certificates.
 
-Do not blindly regenerate application-specific identifiers
-without checking their dependencies.
-
+Do not blindly regenerate application-specific identifiers without checking their dependencies.
 
 ## 7. Common problems and troubleshooting
 
@@ -975,8 +943,7 @@ ERROR: might be timeout in USB write.
 Error: Return value 3
 ```
 
-This occurs during the early recovery boot process,
-before the backup environment accesses the SSD.
+This occurs during the early recovery boot process, before the backup environment accesses the SSD.
 
 Possible causes:
 
@@ -994,13 +961,11 @@ First, disable USB autosuspend on the host:
 echo -1 | sudo tee /sys/module/usbcore/parameters/autosuspend
 ```
 
-Disconnect the USB cable, power-cycle the Jetson,
-and enter Force Recovery Mode again.
+Disconnect the USB cable, power-cycle the Jetson, and enter Force Recovery Mode again.
 
 Reconnect the USB cable and retry.
 
-This solution has been successfully tested on one of
-our Jetson Orin NX devices.
+This solution has been successfully tested on one of our Jetson Orin NX devices.
 
 If the problem persists:
 
@@ -1010,11 +975,9 @@ If the problem persists:
 - Try another Linux host.
 - Verify the BSP and carrier board configuration.
 
-
 ### 7.2 USBFS memory limit
 
-For USB transfer failures, particularly during larger
-transfers, increasing the USBFS memory limit may help.
+For USB transfer failures, particularly during larger transfers, increasing the USBFS memory limit may help.
 
 Check the current value:
 
@@ -1030,9 +993,7 @@ echo 2048 | sudo tee /sys/module/usbcore/parameters/usbfs_memory_mb
 
 This sets the limit to 2048 MB.
 
-This is a troubleshooting workaround rather than a
-mandatory configuration step.
-
+This is a troubleshooting workaround rather than a mandatory configuration step.
 
 ### 7.3 Jetson not detected in recovery mode
 
@@ -1065,7 +1026,6 @@ Possible causes:
 
 Consult the carrier board documentation.
 
-
 ### 7.4 NFS server is not running
 
 Check the NFS server:
@@ -1086,15 +1046,13 @@ If necessary, inspect exported directories:
 sudo exportfs -v
 ```
 
-The backup tool uses NFS to transfer files between
-the temporary recovery environment and the host.
+The backup tool uses NFS to transfer files between the temporary recovery environment and the host.
 
 ## 8. Additional workflows
 
 ### 8.1 Massflash
 
-The NVIDIA backup tool also supports preparing a backup
-for deployment to multiple Jetson devices.
+The NVIDIA backup tool also supports preparing a backup for deployment to multiple Jetson devices.
 
 This is useful for:
 
@@ -1110,12 +1068,9 @@ The general procedure is:
 3. Connect the target devices in Force Recovery Mode.
 4. Flash the target devices using the generated package.
 
-Consult the backup restore README and initrd flash README
-included with the specific BSP version.
+Consult the backup restore README and initrd flash README included with the specific BSP version.
 
-For a small number of Jetsons, standard backup and restore
-operations are usually simpler.
-
+For a small number of Jetsons, standard backup and restore operations are usually simpler.
 
 ### 8.2 Raw disk images
 
@@ -1142,9 +1097,7 @@ NVIDIA also provides a raw-image restore workflow for supported eMMC configurati
 Do not assume that the eMMC raw-image restore procedure supports NVMe storage without verifying the documentation.
 
 > [!CAUTION]
-> Reversing the `if` and `of` arguments of `dd` can
-> permanently overwrite the original storage device.
-
+> Reversing the `if` and `of` arguments of `dd` can permanently overwrite the original storage device.
 
 ## 9. Restore normal host configuration
 
@@ -1164,7 +1117,6 @@ If the NFS server was started exclusively for this operation, and no other users
 sudo systemctl stop nfs-kernel-server
 ```
 
-
 ## 10. Quick reference
 
 ### Identify the Jetson
@@ -1179,7 +1131,6 @@ uname -r
 lsblk
 ```
 
-
 ### Prepare the host
 
 Run on the host:
@@ -1191,13 +1142,11 @@ sudo systemctl start nfs-kernel-server
 echo -1 | sudo tee /sys/module/usbcore/parameters/autosuspend
 ```
 
-
 ### Verify recovery mode
 
 ```bash
 lsusb -d 0955:
 ```
-
 
 ### Backup
 
