@@ -16,29 +16,28 @@ NVIDIA distinguishes between a backup and a clone:
 
 For disaster recovery and duplication of complete Jetson systems, the Backup and Restore tool is preferred.
 
-> [!CAUTION]
-> ## WARNING – RISK OF PERMANENT DATA LOSS
->
-> The backup and restore operations use the same script and differ primarily in a single command-line argument:
->
-> - `-b` = BACKUP
-> - `-r` = RESTORE
->
-> Accidentally replacing `-b` with `-r`  can initiate a restore operation and overwrite the operating system, bootloader, applications, configuration, and user data on the connected Jetson.
->
-> **DO NOT assume that the script will ask for confirmation before overwriting the device.**
->
-> Before executing any command:
->
-> - Verify whether the command contains `-b` or `-r`.
-> - Verify which physical Jetson is connected.
-> - Verify the selected board configuration.
-> - Verify the selected storage device.
-> - Verify the contents of the `/images` directory when doing RESTORE.
-> - Verify the `/images` is empty or does not exist when doing BACKUP.
->
-> **NEVER execute a restore operation on a device containing important data without creating and verifying a backup first.**
-> Connect only ONE Jetson in Force Recovery Mode at a time.
+!!! danger "WARNING – RISK OF PERMANENT DATA LOSS"
+
+    The backup and restore operations use the same script and differ primarily in a single command-line argument:
+
+    - `-b` = BACKUP
+    - `-r` = RESTORE
+
+    Accidentally replacing `-b` with `-r`  can initiate a restore operation and overwrite the operating system, bootloader, applications, configuration, and user data on the connected Jetson.
+
+    **DO NOT assume that the script will ask for confirmation before overwriting the device.**
+
+    Before executing any command:
+
+    - Verify whether the command contains `-b` or `-r`.
+    - Verify which physical Jetson is connected.
+    - Verify the selected board configuration.
+    - Verify the selected storage device.
+    - Verify the contents of the `/images` directory when doing RESTORE.
+    - Verify the `/images` is empty or does not exist when doing BACKUP.
+
+    **NEVER execute a restore operation on a device containing important data without creating and verifying a backup first.**
+    Connect only ONE Jetson in Force Recovery Mode at a time.
 
 ## 2. Before you start
 
@@ -49,7 +48,7 @@ For disaster recovery and duplication of complete Jetson systems, the Backup and
 - Linux host computer, preferably running a supported native Ubuntu installation (Ubuntu 22.04 for JetPack 6.x).
 - USB data cable compatible with the carrier board's recovery USB port (for Waveshare boards it is USB-C).
 - Stable power supply for the Jetson.
-- Sufficient free storage space on the host computer.
+- Free storage space on the host computer for the backup. In practice, the backup used roughly **0.75× the disk space occupied on the Jetson**. Use this as a planning estimate and leave extra room on the host.
 - Access to the Force Recovery button or recovery pins (F-F jumper wire for Waveshare board).
 - Optional external SSD for long-term backup storage.
 
@@ -124,8 +123,9 @@ Not every `.conf` file represents a standalone board target.
 
 Third-party carrier boards may require manufacturer-specific BSP packages and board configuration files.
 
-> [!IMPORTANT]
-> Always use the board configuration appropriate for the original system and carrier board. Do not switch between standard and Super configurations during a backup simply to obtain higher performance.
+!!! info "Important"
+
+    Always use the board configuration appropriate for the original system and carrier board. Do not switch between standard and Super configurations during a backup simply to obtain higher performance.
 
 ### 2.4 Identify the JetPack and L4T version
 
@@ -298,8 +298,9 @@ The backup and restore tools should now be available at:
 Linux_for_Tegra/tools/backup_restore/
 ```
 
-> [!NOTE]
-> Download URLs differ between L4T releases. Obtain the exact download links from the official NVIDIA release page instead of blindly substituting version numbers in existing URLs.
+!!! note
+
+    Download URLs differ between L4T releases. Obtain the exact download links from the official NVIDIA release page instead of blindly substituting version numbers in existing URLs.
 
 ### 3.3 Special case – L4T R36.4.7
 
@@ -309,20 +310,23 @@ A standalone public BSP package for R36.4.7 is not listed in the official Jetson
 
 Please use `36.4.4` version for R36.4.7.
 
-> [!WARNING]
-> Cross-version backup and restore compatibility is not guaranteed. A successful backup does not automatically guarantee a successful restore.
+!!! warning
+
+    Cross-version backup and restore compatibility is not guaranteed. A successful backup does not automatically guarantee a successful restore.
 
 Do not downgrade or upgrade the original Jetson solely to make its version match the available BSP before securing its existing data.
 
 ### 3.4 Method B – NVIDIA SDK Manager
 
-> [!NOTE]
-> NVIDIA SDK Manager has limited OS compatibility based on target Jetpack version.
-> Please check [supported SDKs](https://developer.nvidia.com/w/sdkmanager/resources/supported_sdks/index.html) before downloading SDK manager.
+!!! note
 
-> [!WARNING]
-> NVIDIA SDK Manager requires the X11 display protocol. If the application window does not appear after launching, you may be running a Wayland session.
-> See [how to switch from Wayland to X11 on Ubuntu](https://itsfoss.community/t/switching-from-wayland-to-x11-in-ubuntu-22-04/10723) for troubleshooting instructions.
+    NVIDIA SDK Manager has limited OS compatibility based on target Jetpack version.
+    Please check [supported SDKs](https://developer.nvidia.com/w/sdkmanager/resources/supported_sdks/index.html) before downloading SDK manager.
+
+!!! warning
+
+    NVIDIA SDK Manager requires the X11 display protocol. If the application window does not appear after launching, you may be running a Wayland session.
+    See [how to switch from Wayland to X11 on Ubuntu](https://itsfoss.community/t/switching-from-wayland-to-x11-in-ubuntu-22-04/10723) for troubleshooting instructions.
 
 Download NVIDIA SDK Manager:
 
@@ -377,12 +381,13 @@ Locate an existing BSP installation:
 find ~/nvidia -type d -name Linux_for_Tegra 2>/dev/null
 ```
 
-> [!CAUTION]
-> The purpose of this step is solely to download the BSP and flashing tools.
->
-> **DO NOT allow SDK Manager to flash the original Jetson.** To prevent accidental flashing, keep the USB cable between the Jetson and the host computer disconnected throughout this step.
->
-> Flashing may overwrite the existing system, resulting in irreversible data loss before a backup can be created.
+!!! danger "Caution"
+
+    The purpose of this step is solely to download the BSP and flashing tools.
+
+    **DO NOT allow SDK Manager to flash the original Jetson.** To prevent accidental flashing, keep the USB cable between the Jetson and the host computer disconnected throughout this step.
+
+    Flashing may overwrite the existing system, resulting in irreversible data loss before a backup can be created.
 
 ### 3.5 Install required dependencies
 
@@ -488,10 +493,17 @@ Bus 001 Device 005: ID 0955:7323 NVIDIA Corp. APX
 
 The APX device indicates that the Jetson is in recovery mode.
 
-> [!IMPORTANT]
-> Force Recovery Mode is not the same as a normally running Jetson with a USB network connection.
+!!! info "Important"
+
+    Force Recovery Mode is not the same as a normally running Jetson with a USB network connection.
 
 ## 4. Backup
+
+!!! note "Keep large testing datasets out of system backups"
+
+    Reserve the NVIDIA backup workflow for preserving the Jetson's system configuration and working files. Back up large testing datasets separately at the file level and keep them off the storage selected for the system backup.
+
+    The system backup is slow for bulk data. In one run, backing up **700 GB took about 6 hours**.
 
 ### 4.1 Prepare the backup directory
 
@@ -527,10 +539,11 @@ Arguments:
 | `-e` | Specify the storage device |
 | `<board-name>` | Jetson board configuration |
 
-> [!CAUTION]
-> VERIFY THAT THE COMMAND CONTAINS `-b`.
->
-> Do not accidentally use `-r`, as this initiates a restore operation instead of creating a backup.
+!!! danger "Caution"
+
+    VERIFY THAT THE COMMAND CONTAINS `-b`.
+
+    Do not accidentally use `-r`, as this initiates a restore operation instead of creating a backup.
 
 ### 4.3 Example – Orin NX standard configuration
 
@@ -671,12 +684,13 @@ It does not provide a complete backup version management system.
 
 **Treat this directory as a temporary workspace containing only one backup at a time.**
 
-> [!WARNING]
-> Always archive the entire `images/` directory before starting another backup.
->
-> Never mix partition images from different Jetsons or different backup dates.
->
-> Never rename individual partition images, since their filenames may be referenced by the partition mapping file.
+!!! warning
+
+    Always archive the entire `images/` directory before starting another backup.
+
+    Never mix partition images from different Jetsons or different backup dates.
+
+    Never rename individual partition images, since their filenames may be referenced by the partition mapping file.
 
 ### 5.2 Recommended directory structure
 
@@ -752,23 +766,22 @@ The NVIDIA backup tool is now ready to create another backup.
 
 ## 6. Restore
 
-> [!CAUTION]
-> ## DESTRUCTIVE OPERATION
->
-> THE RESTORE COMMAND USES `-r`.
->
-> Before continuing:
->
-> - Physically identify the target Jetson.
-> - Disconnect every other Jetson.
-> - Verify that the target device contains no unprotected data.
-> - Create a backup of the target device if necessary.
-> - Verify the selected backup directory.
-> - Verify the board configuration and BSP.
-> - Verify the target storage capacity.
->
-> Do not proceed unless the target device is intended to
-> be overwritten.
+!!! danger "DESTRUCTIVE OPERATION"
+
+    THE RESTORE COMMAND USES `-r`.
+
+    Before continuing:
+
+    - Physically identify the target Jetson.
+    - Disconnect every other Jetson.
+    - Verify that the target device contains no unprotected data.
+    - Create a backup of the target device if necessary.
+    - Verify the selected backup directory.
+    - Verify the board configuration and BSP.
+    - Verify the target storage capacity.
+
+    Do not proceed unless the target device is intended to
+    be overwritten.
 
 ### 6.1 Check hardware compatibility
 
@@ -872,8 +885,9 @@ sudo ./tools/backup_restore/l4t_backup_restore.sh \
 
 ### 6.6 Example – Restore standard configuration
 
-> [!CAUTION]
-> The following command overwrites the target Jetson.
+!!! danger "Caution"
+
+    The following command overwrites the target Jetson.
 
 ```bash
 sudo ./tools/backup_restore/l4t_backup_restore.sh \
@@ -883,8 +897,9 @@ sudo ./tools/backup_restore/l4t_backup_restore.sh \
 
 ### 6.7 Example – Restore Super configuration
 
-> [!CAUTION]
-> The following command overwrites the target Jetson.
+!!! danger "Caution"
+
+    The following command overwrites the target Jetson.
 
 ```bash
 sudo ./tools/backup_restore/l4t_backup_restore.sh \
@@ -1096,8 +1111,9 @@ NVIDIA also provides a raw-image restore workflow for supported eMMC configurati
 
 Do not assume that the eMMC raw-image restore procedure supports NVMe storage without verifying the documentation.
 
-> [!CAUTION]
-> Reversing the `if` and `of` arguments of `dd` can permanently overwrite the original storage device.
+!!! danger "Caution"
+
+    Reversing the `if` and `of` arguments of `dd` can permanently overwrite the original storage device.
 
 ## 9. Restore normal host configuration
 
@@ -1171,10 +1187,11 @@ sudo mkdir -p tools/backup_restore/images
 
 ### Restore
 
-> [!CAUTION]
-> DESTRUCTIVE OPERATION – VERIFY THE TARGET DEVICE FIRST.
->
-> Ensure that the desired backup is present in the working `images/` directory before executing this command.
+!!! danger "Caution"
+
+    DESTRUCTIVE OPERATION – VERIFY THE TARGET DEVICE FIRST.
+
+    Ensure that the desired backup is present in the working `images/` directory before executing this command.
 
 ```bash
 sudo ./tools/backup_restore/l4t_backup_restore.sh \
