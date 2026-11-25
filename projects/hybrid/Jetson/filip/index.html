@@ -1,0 +1,4621 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://drc-wiki.github.io/projects/hybrid/Jetson/filip/">
+      
+      
+        <link rel="prev" href="../../Indoor%20drone/Rpi%20MAVROS%20communication/mavros_setup/">
+      
+      
+        <link rel="next" href="../simon/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../images/Dron_DRC_BUT_WB.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Backup and Restore NVIDIA Jetson device - DRC Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#backup-and-restore-nvidia-jetson-device" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="DRC Wiki" class="md-header__button md-logo" aria-label="DRC Wiki" data-md-component="logo">
+      
+  <img src="../../../../images/Dron_DRC_BUT_WB.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DRC Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Backup and Restore NVIDIA Jetson device
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/BUT-DRONE-RESEARCH-CENTER/Documentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Documentation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="DRC Wiki" class="md-nav__button md-logo" aria-label="DRC Wiki" data-md-component="logo">
+      
+  <img src="../../../../images/Dron_DRC_BUT_WB.png" alt="logo">
+
+    </a>
+    DRC Wiki
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/BUT-DRONE-RESEARCH-CENTER/Documentation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Documentation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projects
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Projects
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Software
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_1" id="__nav_2_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ICUAS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ICUAS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../software/ICUAS/main/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main-ICUAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_2" id="__nav_2_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LEOPARDIMAGING
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LEOPARDIMAGING
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../software/LEOPARDIMAGING/Driver_compilation_and_implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Driver Guide: LI-IMX900-MIPI-FR-EO Camera Driver for Jetson Orin NX
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_3" id="__nav_2_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VIO
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    VIO
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../software/VIO/main/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main-VIO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../software/VIO/OpenVINS_Docker_comlete_tutorial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kompletní průvodce instalací a spuštěním OpenVINS v Dockeru
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../software/VIO/Rosbag_Rpi5_docker_Famos_IMX900/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kompletní průvodce: Framos IMX900 + ArduPilot (MAVROS) v Dockeru pro OpenVINS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../software/VIO/Rosbag_verification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rosbag verification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardware
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hardware
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_1" id="__nav_2_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HW example1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HW example1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/HW_example1/main/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main-HW1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HW example2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HW example2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/HW_example2/main/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main-HW2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_3" id="__nav_2_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NUCLEO F411RE
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    NUCLEO F411RE
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/NUCLEO-F411RE/main/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main-NUCLEO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_4" id="__nav_2_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hello world project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hello world project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hardware/hello_world_project/my_first_project/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main-Hello world
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hybrid
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hybrid
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_1" id="__nav_2_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Goo(fy) drone
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Goo(fy) drone
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Goo%28fy%29_drone/main/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main-Goo(fy) drone
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_2" id="__nav_2_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hybrid example1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hybrid example1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Hybrid_example1/main/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main-Hybrid1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_3" id="__nav_2_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Indoor drone
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Indoor drone
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_3_1" id="__nav_2_3_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D500 LiDAR
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_3_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    D500 LiDAR
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Indoor%20drone/D500%20LiDAR/lidar_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zprovoznění LiDARu D500 (STL-19P) na Raspberry Pi 5 s ROS 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_3_2" id="__nav_2_3_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rpi MAVROS communication
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_3_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rpi MAVROS communication
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Indoor%20drone/Rpi%20MAVROS%20communication/mavros_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Připojení a konfigurace ArduPilotu (NxtPX4v2) v ROS 2 Humble (Docker)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_4" id="__nav_2_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Jetson
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Jetson
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup and Restore NVIDIA Jetson device
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup and Restore NVIDIA Jetson device
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backup-vs-clone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup vs. clone
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Before you start
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Before you start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-hardware-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Hardware requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-identify-the-jetson-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Identify the Jetson hardware
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-identify-the-board-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Identify the board name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-identify-the-jetpack-and-l4t-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Identify the JetPack and L4T version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-identify-the-storage-device" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Identify the storage device
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-prepare-the-host-computer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Prepare the host computer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Prepare the host computer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-download-the-correct-jetson-linux-bsp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Download the correct Jetson Linux BSP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-method-a-download-using-wget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Method A – Download using wget
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-special-case-l4t-r3647" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Special case – L4T R36.4.7
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-method-b-nvidia-sdk-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Method B – NVIDIA SDK Manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-install-required-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Install required dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-disable-automatic-mounting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Disable automatic mounting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-disable-usb-autosuspend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Disable USB autosuspend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#38-put-the-jetson-into-force-recovery-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8 Put the Jetson into Force Recovery Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Backup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Backup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-prepare-the-backup-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Prepare the backup directory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-backup-command-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Backup command syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-example-orin-nx-standard-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Example – Orin NX standard configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-example-orin-nx-super-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Example – Orin NX Super configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-backup-multiple-storage-devices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Backup multiple storage devices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-save-the-backup-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 Save the backup log
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-what-happens-during-the-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 What happens during the backup?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#48-verify-the-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8 Verify the backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-archiving-backups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Archiving backups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Archiving backups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-general-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 General principles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-recommended-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Recommended directory structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-archive-the-current-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Archive the current backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Restore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Restore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-check-hardware-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Check hardware compatibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-select-the-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Select the backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-prepare-the-restore-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Prepare the restore directory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-connect-the-target-jetson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Connect the target Jetson
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-restore-command-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Restore command syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-example-restore-standard-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Example – Restore standard configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-example-restore-super-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Example – Restore Super configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-common-problems-and-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Common problems and troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Common problems and troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-usb-write-timeout-during-rcm-boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 USB write timeout during RCM boot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-usbfs-memory-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 USBFS memory limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-jetson-not-detected-in-recovery-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Jetson not detected in recovery mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-nfs-server-is-not-running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 NFS server is not running
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-additional-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Additional workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Additional workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-massflash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Massflash
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-raw-disk-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Raw disk images
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-restore-normal-host-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Restore normal host configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Quick reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Quick reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identify-the-jetson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identify the Jetson
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prepare-the-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare the host
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-recovery-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify recovery mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#archive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Archive
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. References
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. References">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nvidia-official-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NVIDIA official documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#local-bsp-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Local BSP documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting references
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup the Internet connection through ethernet for Jetson (Windows → Jetson Orin NX 16GB + Waveshare Jetson IO base)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Drones
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Drones
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IndoorDrone
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    IndoorDrone
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../drones/IndoorDrone/main/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IndoorDrone main page
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshops
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Workshops
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../workshops/example_workshop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Toto je example workshop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../tutorials/MKdocs_tutorial/MKdocs_tutorial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MKdocs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Instalation" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kelvin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ardupilot setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ardupilot setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../tutorials/Ardupilot_setup/Basic_Ardupilot_setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Návod na nastavení a kalibraci řídicí jednotky (ArduPilot)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../tutorials/Kelvin/Instalation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installing Raspberry Pi OS on the Kelvin Carrier Board for CM5
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../About/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backup-vs-clone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup vs. clone
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Before you start
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Before you start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-hardware-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Hardware requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-identify-the-jetson-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Identify the Jetson hardware
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-identify-the-board-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Identify the board name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-identify-the-jetpack-and-l4t-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Identify the JetPack and L4T version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-identify-the-storage-device" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Identify the storage device
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-prepare-the-host-computer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Prepare the host computer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Prepare the host computer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-download-the-correct-jetson-linux-bsp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Download the correct Jetson Linux BSP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-method-a-download-using-wget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Method A – Download using wget
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-special-case-l4t-r3647" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Special case – L4T R36.4.7
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-method-b-nvidia-sdk-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Method B – NVIDIA SDK Manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-install-required-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Install required dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-disable-automatic-mounting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Disable automatic mounting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-disable-usb-autosuspend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Disable USB autosuspend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#38-put-the-jetson-into-force-recovery-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8 Put the Jetson into Force Recovery Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Backup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Backup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-prepare-the-backup-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Prepare the backup directory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-backup-command-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Backup command syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-example-orin-nx-standard-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Example – Orin NX standard configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-example-orin-nx-super-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Example – Orin NX Super configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-backup-multiple-storage-devices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Backup multiple storage devices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-save-the-backup-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 Save the backup log
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-what-happens-during-the-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 What happens during the backup?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#48-verify-the-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8 Verify the backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-archiving-backups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Archiving backups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Archiving backups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-general-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 General principles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-recommended-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Recommended directory structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-archive-the-current-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Archive the current backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Restore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Restore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-check-hardware-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Check hardware compatibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-select-the-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Select the backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-prepare-the-restore-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Prepare the restore directory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-connect-the-target-jetson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Connect the target Jetson
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-restore-command-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Restore command syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-example-restore-standard-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Example – Restore standard configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-example-restore-super-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Example – Restore Super configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-common-problems-and-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Common problems and troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Common problems and troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-usb-write-timeout-during-rcm-boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 USB write timeout during RCM boot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-usbfs-memory-limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 USBFS memory limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-jetson-not-detected-in-recovery-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Jetson not detected in recovery mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-nfs-server-is-not-running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 NFS server is not running
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-additional-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Additional workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Additional workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-massflash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Massflash
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-raw-disk-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Raw disk images
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-restore-normal-host-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Restore normal host configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Quick reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Quick reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identify-the-jetson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identify the Jetson
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prepare-the-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare the host
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-recovery-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify recovery mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#archive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Archive
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. References
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. References">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nvidia-official-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NVIDIA official documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#local-bsp-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Local BSP documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting references
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="backup-and-restore-nvidia-jetson-device">Backup and Restore NVIDIA Jetson device</h1>
+<h2 id="1-introduction">1. Introduction</h2>
+<p>This document describes how to create, archive, and restore system backups of NVIDIA Jetson devices using the official NVIDIA Backup and Restore tool.</p>
+<p>The procedure is primarily intended for Jetson Orin NX and Orin Nano devices running JetPack 6.x with NVMe storage.</p>
+<h3 id="backup-vs-clone">Backup vs. clone</h3>
+<p>NVIDIA distinguishes between a backup and a clone:</p>
+<ul>
+<li><strong>Backup:</strong> Copies the relevant storage partitions, including QSPI bootloader data and selected external storage devices.</li>
+<li><strong>Clone:</strong> Copies only the APP filesystem partition.</li>
+<li><strong>Raw disk image:</strong> A sector-by-sector copy of a storage device, typically created using <code>dd</code>.</li>
+</ul>
+<p>For disaster recovery and duplication of complete Jetson systems, the Backup and Restore tool is preferred.</p>
+<div class="admonition danger">
+<p class="admonition-title">WARNING – RISK OF PERMANENT DATA LOSS</p>
+<p>The backup and restore operations use the same script and differ primarily in a single command-line argument:</p>
+<ul>
+<li><code>-b</code> = BACKUP</li>
+<li><code>-r</code> = RESTORE</li>
+</ul>
+<p>Accidentally replacing <code>-b</code> with <code>-r</code>  can initiate a restore operation and overwrite the operating system, bootloader, applications, configuration, and user data on the connected Jetson.</p>
+<p><strong>DO NOT assume that the script will ask for confirmation before overwriting the device.</strong></p>
+<p>Before executing any command:</p>
+<ul>
+<li>Verify whether the command contains <code>-b</code> or <code>-r</code>.</li>
+<li>Verify which physical Jetson is connected.</li>
+<li>Verify the selected board configuration.</li>
+<li>Verify the selected storage device.</li>
+<li>Verify the contents of the <code>/images</code> directory when doing RESTORE.</li>
+<li>Verify the <code>/images</code> is empty or does not exist when doing BACKUP.</li>
+</ul>
+<p><strong>NEVER execute a restore operation on a device containing important data without creating and verifying a backup first.</strong>
+Connect only ONE Jetson in Force Recovery Mode at a time.</p>
+</div>
+<h2 id="2-before-you-start">2. Before you start</h2>
+<h3 id="21-hardware-requirements">2.1 Hardware requirements</h3>
+<ul>
+<li>NVIDIA Jetson device.</li>
+<li>Compatible carrier board.</li>
+<li>Linux host computer, preferably running a supported native Ubuntu installation (Ubuntu 22.04 for JetPack 6.x).</li>
+<li>USB data cable compatible with the carrier board's recovery USB port (for Waveshare boards it is USB-C).</li>
+<li>Stable power supply for the Jetson.</li>
+<li>Free storage space on the host computer for the backup. In practice, the backup used roughly <strong>0.75× the disk space occupied on the Jetson</strong>. Use this as a planning estimate and leave extra room on the host.</li>
+<li>Access to the Force Recovery button or recovery pins (F-F jumper wire for Waveshare board).</li>
+<li>Optional external SSD for long-term backup storage.</li>
+</ul>
+<p>Avoid USB hubs, virtual machines, and unreliable USB cables
+if possible.</p>
+<p>The exact Force Recovery procedure depends on the carrier board.</p>
+<h3 id="22-identify-the-jetson-hardware">2.2 Identify the Jetson hardware</h3>
+<p>Run the following commands directly on the Jetson while the operating system is still running.</p>
+<p>Check the device tree compatibility:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cat<span class="w"> </span>/proc/device-tree/compatible<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">'\0'</span><span class="w"> </span><span class="s1">'\n'</span>
+</span></code></pre></div>
+<p>Check the board model:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>cat<span class="w"> </span>/proc/device-tree/model
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">echo</span>
+</span></code></pre></div>
+<p>Check the bootloader configuration:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cat<span class="w"> </span>/etc/nv_boot_control.conf
+</span></code></pre></div>
+<p>Pay particular attention to the following entries:</p>
+<ul>
+<li><code>TNSPEC</code></li>
+<li><code>COMPATIBLE_SPEC</code></li>
+<li><code>TEGRA_BOOT_STORAGE</code></li>
+<li><code>TEGRA_OTA_BOOT_DEVICE</code></li>
+</ul>
+<p>Example:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>COMPATIBLE_SPEC 3767-000-0000--1--jetson-orin-nano-devkit-super-
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>TEGRA_BOOT_STORAGE nvme0n1
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>TEGRA_OTA_BOOT_DEVICE /dev/mtdblock0
+</span></code></pre></div>
+<p>This indicates that the device uses the Super configuration,
+NVMe storage, and QSPI bootloader storage.</p>
+<h3 id="23-identify-the-board-name">2.3 Identify the board name</h3>
+<p>The board name specifies the hardware and boot configuration used by the NVIDIA flashing tools.</p>
+<p>Common board names:</p>
+<table>
+<thead>
+<tr>
+<th>Board name</th>
+<th>Configuration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>jetson-orin-nano-devkit</code></td>
+<td>Orin NX / Orin Nano standard</td>
+</tr>
+<tr>
+<td><code>jetson-orin-nano-devkit-super</code></td>
+<td>Orin NX / Orin Nano Super</td>
+</tr>
+<tr>
+<td><code>jetson-agx-orin-devkit</code></td>
+<td>AGX Orin</td>
+</tr>
+<tr>
+<td><code>jetson-agx-orin-devkit-industrial</code></td>
+<td>AGX Orin Industrial</td>
+</tr>
+</tbody>
+</table>
+<p>The board name is NOT the hostname of the device.</p>
+<p>The available board configurations can also be listed from the <code>Linux_for_Tegra</code> directory:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ls<span class="w"> </span>-1<span class="w"> </span>*.conf
+</span></code></pre></div>
+<p>Not every <code>.conf</code> file represents a standalone board target.</p>
+<p>Third-party carrier boards may require manufacturer-specific BSP packages and board configuration files.</p>
+<div class="admonition info">
+<p class="admonition-title">Important</p>
+<p>Always use the board configuration appropriate for the original system and carrier board. Do not switch between standard and Super configurations during a backup simply to obtain higher performance.</p>
+</div>
+<h3 id="24-identify-the-jetpack-and-l4t-version">2.4 Identify the JetPack and L4T version</h3>
+<p>Run on the Jetson:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>cat<span class="w"> </span>/etc/nv_tegra_release
+</span></code></pre></div>
+<p>Example output:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a># R36 (release), REVISION: 4.4, BOARD: generic, EABI: aarch64
+</span></code></pre></div>
+<p>This corresponds to Jetson Linux (L4T) R36.4.4.</p>
+<p>Alternatively:</p>
+<ul>
+<li>Check the installed L4T package:</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>dpkg-query<span class="w"> </span>-W<span class="w"> </span>nvidia-l4t-core
+</span></code></pre></div>
+<ul>
+<li>Check the Jetpack package with <code>jtop</code>, if installed:</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sudo<span class="w"> </span>jtop
+</span></code></pre></div>
+<p>Common JetPack versions:</p>
+<table>
+<thead>
+<tr>
+<th>JetPack</th>
+<th>Jetson Linux (L4T)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6.0</td>
+<td>R36.3</td>
+</tr>
+<tr>
+<td>6.1</td>
+<td>R36.4</td>
+</tr>
+<tr>
+<td>6.2</td>
+<td>R36.4.3</td>
+</tr>
+<tr>
+<td>6.2.1</td>
+<td>R36.4.4</td>
+</tr>
+<tr>
+<td>6.2.1 with security updates</td>
+<td>R36.4.7</td>
+</tr>
+<tr>
+<td>6.2.2</td>
+<td>R36.5.0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="25-identify-the-storage-device">2.5 Identify the storage device</h3>
+<p>Run on the Jetson:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>lsblk<span class="w"> </span>-o<span class="w"> </span>NAME,SIZE,TYPE,FSTYPE,MOUNTPOINTS
+</span></code></pre></div>
+<p>Identify which device contains the root filesystem:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>findmnt<span class="w"> </span>-no<span class="w"> </span>SOURCE<span class="w"> </span>/
+</span></code></pre></div>
+<p>Common storage device names:</p>
+<table>
+<thead>
+<tr>
+<th>Device</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nvme0n1</code></td>
+<td>First NVMe SSD</td>
+</tr>
+<tr>
+<td><code>nvme1n1</code></td>
+<td>Second NVMe SSD</td>
+</tr>
+<tr>
+<td><code>mmcblk0</code></td>
+<td>eMMC or SD card, depending on hardware</td>
+</tr>
+<tr>
+<td><code>sda</code></td>
+<td>SATA or USB storage device</td>
+</tr>
+<tr>
+<td><code>mtdblock0</code></td>
+<td>Memory technology device, typically QSPI</td>
+</tr>
+</tbody>
+</table>
+<p>For an Orin NX using an NVMe SSD, the usual storage
+device argument is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>nvme0n1
+</span></code></pre></div>
+<p>Use the entire storage device name, not an individual partition.</p>
+<p><strong>Correct</strong>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>nvme0n1
+</span></code></pre></div>
+<p><strong>Incorrect</strong> for a complete NVMe backup:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>nvme0n1p1
+</span></code></pre></div>
+<h2 id="3-prepare-the-host-computer">3. Prepare the host computer</h2>
+<p>All commands in the following sections must be executed on the Linux host computer, unless stated otherwise.</p>
+<h3 id="31-download-the-correct-jetson-linux-bsp">3.1 Download the correct Jetson Linux BSP</h3>
+<p>Preferably use the same L4T version and BSP configuration that were used to configure the original Jetson.</p>
+<p>Official Jetson Linux archive:</p>
+<p>https://developer.nvidia.com/embedded/jetson-linux-archive</p>
+<p>Official JetPack archive:</p>
+<p>https://developer.nvidia.com/embedded/jetpack-archive</p>
+<p>There are two common methods of obtaining the BSP:</p>
+<ol>
+<li>Manual download using <code>wget</code>.</li>
+<li>NVIDIA SDK Manager.</li>
+</ol>
+<h3 id="32-method-a-download-using-wget">3.2 Method A – Download using wget</h3>
+<p>The following example uses JetPack 6.2.1 / L4T R36.4.4.</p>
+<p>Create a dedicated BSP directory:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Jetson/BSP/R36.4.4
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">cd</span><span class="w"> </span>~/Jetson/BSP/R36.4.4
+</span></code></pre></div>
+<p>Download the NVIDIA driver package:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>wget<span class="w"> </span>https://developer.nvidia.com/downloads/embedded/l4t/r36_release_v4.4/release/Jetson_Linux_r36.4.4_aarch64.tbz2
+</span></code></pre></div>
+<p>Download the sample root filesystem:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>wget<span class="w"> </span>https://developer.nvidia.com/downloads/embedded/l4t/r36_release_v4.4/release/Tegra_Linux_Sample-Root-Filesystem_r36.4.4_aarch64.tbz2
+</span></code></pre></div>
+<p>Extract the driver package:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>tar<span class="w"> </span>-xjf<span class="w"> </span>Jetson_Linux_r36.4.4_aarch64.tbz2
+</span></code></pre></div>
+<p>Extract the sample root filesystem:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>sudo<span class="w"> </span>tar<span class="w"> </span>-xjpf<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span>Tegra_Linux_Sample-Root-Filesystem_r36.4.4_aarch64.tbz2<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span>-C<span class="w"> </span>Linux_for_Tegra/rootfs/
+</span></code></pre></div>
+<p>Enter the BSP directory:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nb">cd</span><span class="w"> </span>Linux_for_Tegra
+</span></code></pre></div>
+<p>Install flashing prerequisites:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>sudo<span class="w"> </span>./tools/l4t_flash_prerequisites.sh
+</span></code></pre></div>
+<p>Apply NVIDIA binaries to the host-side sample root filesystem:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>sudo<span class="w"> </span>./apply_binaries.sh
+</span></code></pre></div>
+<p>These preparation commands do not flash the connected Jetson.</p>
+<p>The backup and restore tools should now be available at:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>Linux_for_Tegra/tools/backup_restore/
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Download URLs differ between L4T releases. Obtain the exact download links from the official NVIDIA release page instead of blindly substituting version numbers in existing URLs.</p>
+</div>
+<h3 id="33-special-case-l4t-r3647">3.3 Special case – L4T R36.4.7</h3>
+<p>L4T R36.4.7 was released as a security update following R36.4.4.</p>
+<p>A standalone public BSP package for R36.4.7 is not listed in the official Jetson Linux archive. Therefore simply replacing <code>36.4.4</code> with <code>36.4.7</code> in the download URLs will not work.</p>
+<p>Please use <code>36.4.4</code> version for R36.4.7.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Cross-version backup and restore compatibility is not guaranteed. A successful backup does not automatically guarantee a successful restore.</p>
+</div>
+<p>Do not downgrade or upgrade the original Jetson solely to make its version match the available BSP before securing its existing data.</p>
+<h3 id="34-method-b-nvidia-sdk-manager">3.4 Method B – NVIDIA SDK Manager</h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>NVIDIA SDK Manager has limited OS compatibility based on target Jetpack version.
+Please check <a href="https://developer.nvidia.com/w/sdkmanager/resources/supported_sdks/index.html">supported SDKs</a> before downloading SDK manager.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>NVIDIA SDK Manager requires the X11 display protocol. If the application window does not appear after launching, you may be running a Wayland session.
+See <a href="https://itsfoss.community/t/switching-from-wayland-to-x11-in-ubuntu-22-04/10723">how to switch from Wayland to X11 on Ubuntu</a> for troubleshooting instructions.</p>
+</div>
+<p>Download NVIDIA SDK Manager:</p>
+<p><a href="https://developer.nvidia.com/sdk-manager">https://developer.nvidia.com/sdk-manager</a></p>
+<p>Install the downloaded Debian package:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>./sdkmanager_*.deb
+</span></code></pre></div>
+<p>Launch SDK Manager:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>sdkmanager
+</span></code></pre></div>
+<p>For archived SDK versions, SDK Manager can also be started with:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>sdkmanager<span class="w"> </span>--archived-versions
+</span></code></pre></div>
+<p>In SDK Manager:</p>
+<ol>
+<li>Log in using your NVIDIA Developer account.</li>
+<li>Select Jetson as the product category.</li>
+<li>Select the appropriate target hardware.</li>
+<li>Select the required JetPack version.</li>
+<li>Select the Jetson Linux components.</li>
+<li>Enable "Download now. Install later."</li>
+<li>Download the required packages.</li>
+<li>Extract and prepare the downloaded BSP as needed.</li>
+</ol>
+<p>Download-only mode downloads the packages but may not create a fully prepared <code>Linux_for_Tegra</code> directory.</p>
+<p>Depending on the SDK Manager installation settings, an already prepared BSP may be available under:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>~/nvidia/nvidia_sdk/JetPack_&lt;version&gt;_Linux_&lt;target&gt;/Linux_for_Tegra/
+</span></code></pre></div>
+<p>Downloaded packages are typically stored under:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>~/Downloads/nvidia/sdkm_downloads/
+</span></code></pre></div>
+<p>Locate an existing BSP installation:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>find<span class="w"> </span>~/nvidia<span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span>-name<span class="w"> </span>Linux_for_Tegra<span class="w"> </span><span class="m">2</span>&gt;/dev/null
+</span></code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">Caution</p>
+<p>The purpose of this step is solely to download the BSP and flashing tools.</p>
+<p><strong>DO NOT allow SDK Manager to flash the original Jetson.</strong> To prevent accidental flashing, keep the USB cable between the Jetson and the host computer disconnected throughout this step.</p>
+<p>Flashing may overwrite the existing system, resulting in irreversible data loss before a backup can be created.</p>
+</div>
+<h3 id="35-install-required-dependencies">3.5 Install required dependencies</h3>
+<p>Enter the <code>Linux_for_Tegra</code> directory:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="nb">cd</span><span class="w"> </span>~/Jetson/BSP/R36.4.4/Linux_for_Tegra
+</span></code></pre></div>
+<p>Install the NVIDIA flashing prerequisites:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>sudo<span class="w"> </span>./tools/l4t_flash_prerequisites.sh
+</span></code></pre></div>
+<p>Install the NFS server if necessary:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>nfs-kernel-server
+</span></code></pre></div>
+<p>Start the NFS server:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nfs-kernel-server
+</span></code></pre></div>
+<p>Verify that the service is running:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>systemctl<span class="w"> </span>status<span class="w"> </span>nfs-kernel-server
+</span></code></pre></div>
+<h3 id="36-disable-automatic-mounting">3.6 Disable automatic mounting</h3>
+<p>Temporarily disable automatic mounting of external storage:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>udisks2.service
+</span></code></pre></div>
+<p>Automatic mounting may interfere with NVIDIA's backup and restore operations.</p>
+<p>After completing all backup or restore operations, the service can be enabled again:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>udisks2.service
+</span></code></pre></div>
+<h3 id="37-disable-usb-autosuspend">3.7 Disable USB autosuspend</h3>
+<p>USB autosuspend can cause communication failures during
+RCM boot and flashing.</p>
+<p>Record the original value:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>cat<span class="w"> </span>/sys/module/usbcore/parameters/autosuspend
+</span></code></pre></div>
+<p>Disable USB autosuspend:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="nb">echo</span><span class="w"> </span>-1<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/module/usbcore/parameters/autosuspend
+</span></code></pre></div>
+<p>Verify:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>cat<span class="w"> </span>/sys/module/usbcore/parameters/autosuspend
+</span></code></pre></div>
+<p>Expected output:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>-1
+</span></code></pre></div>
+<p>This change is temporary and normally resets after rebooting the host computer.</p>
+<h3 id="38-put-the-jetson-into-force-recovery-mode">3.8 Put the Jetson into Force Recovery Mode</h3>
+<p>The exact procedure depends on the carrier board.</p>
+<p>For a Waveshare board, a typical procedure is:</p>
+<ol>
+<li>Shut down the Jetson.</li>
+<li>Connect the <code>FC REC</code> (3rd from the right) to <code>GND</code> (4th from the right)  </li>
+<li>Connect the recovery USB port to the host PC.</li>
+<li>Power on or reset the Jetson.</li>
+</ol>
+<p>Verify that the Jetson is detected:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>lsusb<span class="w"> </span>-d<span class="w"> </span><span class="m">0955</span>:
+</span></code></pre></div>
+<p>Example for Jetson Orin NX 16 GB:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>Bus 001 Device 005: ID 0955:7323 NVIDIA Corp. APX
+</span></code></pre></div>
+<p>The APX device indicates that the Jetson is in recovery mode.</p>
+<div class="admonition info">
+<p class="admonition-title">Important</p>
+<p>Force Recovery Mode is not the same as a normally running Jetson with a USB network connection.</p>
+</div>
+<h2 id="4-backup">4. Backup</h2>
+<div class="admonition note">
+<p class="admonition-title">Keep large testing datasets out of system backups</p>
+<p>Reserve the NVIDIA backup workflow for preserving the Jetson's system configuration and working files. Back up large testing datasets separately at the file level and keep them off the storage selected for the system backup.</p>
+<p>The system backup is slow for bulk data. In one run, backing up <strong>700 GB took about 6 hours</strong>.</p>
+</div>
+<h3 id="41-prepare-the-backup-directory">4.1 Prepare the backup directory</h3>
+<p>NVIDIA stores backup files in:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>Linux_for_Tegra/tools/backup_restore/images/
+</span></code></pre></div>
+<p>Inspect the directory before starting:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>sudo<span class="w"> </span>ls<span class="w"> </span>-lah<span class="w"> </span>tools/backup_restore/images/
+</span></code></pre></div>
+<p>If the directory contains a previous backup, archive it before continuing (see Section 5).</p>
+<p>Never mix files from multiple backups.</p>
+<h3 id="42-backup-command-syntax">4.2 Backup command syntax</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>sudo<span class="w"> </span>./tools/backup_restore/l4t_backup_restore.sh<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="w">    </span>-e<span class="w"> </span>&lt;storage-device&gt;<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="w">    </span>-b<span class="w"> </span>&lt;board-name&gt;
+</span></code></pre></div>
+<p>Arguments:</p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-b</code></td>
+<td>Create a backup</td>
+</tr>
+<tr>
+<td><code>-e</code></td>
+<td>Specify the storage device</td>
+</tr>
+<tr>
+<td><code>&lt;board-name&gt;</code></td>
+<td>Jetson board configuration</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="admonition-title">Caution</p>
+<p>VERIFY THAT THE COMMAND CONTAINS <code>-b</code>.</p>
+<p>Do not accidentally use <code>-r</code>, as this initiates a restore operation instead of creating a backup.</p>
+</div>
+<h3 id="43-example-orin-nx-standard-configuration">4.3 Example – Orin NX standard configuration</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>sudo<span class="w"> </span>./tools/backup_restore/l4t_backup_restore.sh<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="w">    </span>-e<span class="w"> </span>nvme0n1<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="w">    </span>-b<span class="w"> </span>jetson-orin-nano-devkit
+</span></code></pre></div>
+<h3 id="44-example-orin-nx-super-configuration">4.4 Example – Orin NX Super configuration</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>sudo<span class="w"> </span>./tools/backup_restore/l4t_backup_restore.sh<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="w">    </span>-e<span class="w"> </span>nvme0n1<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="w">    </span>-b<span class="w"> </span>jetson-orin-nano-devkit-super
+</span></code></pre></div>
+<h3 id="45-backup-multiple-storage-devices">4.5 Backup multiple storage devices</h3>
+<p>If supported by the installed backup tool, multiple storage devices can be specified using a colon separator:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>sudo<span class="w"> </span>./tools/backup_restore/l4t_backup_restore.sh<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="w">    </span>-e<span class="w"> </span>mmcblk0:nvme0n1<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="w">    </span>-b<span class="w"> </span>&lt;board-name&gt;
+</span></code></pre></div>
+<p>Only specify storage devices that actually exist on the target hardware. Massflash workflows may impose additional limitations on multiple external storage devices.</p>
+<h3 id="46-save-the-backup-log">4.6 Save the backup log</h3>
+<p>It is recommended to save the complete terminal output.</p>
+<p>For example, using Bash:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="nb">set</span><span class="w"> </span>-o<span class="w"> </span>pipefail
+</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>
+</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a>sudo<span class="w"> </span>./tools/backup_restore/l4t_backup_restore.sh<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="w">    </span>-e<span class="w"> </span>nvme0n1<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-48-5"><a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a><span class="w">    </span>-b<span class="w"> </span>jetson-orin-nano-devkit-super<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-48-6"><a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a><span class="w">    </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>backup.log
+</span></code></pre></div>
+<p>Check the command exit status immediately afterward:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$?</span>
+</span></code></pre></div>
+<p>An exit status of <code>0</code> indicates successful script completion.</p>
+<p>The <code>pipefail</code> option ensures that a failure of the backup script is not hidden by a successful execution of <code>tee</code>.</p>
+<h3 id="47-what-happens-during-the-backup">4.7 What happens during the backup?</h3>
+<p>The host computer:</p>
+<ol>
+<li>Communicates with the Jetson in Force Recovery Mode.</li>
+<li>Uploads a temporary recovery environment.</li>
+<li>Boots the recovery environment on the Jetson.</li>
+<li>Establishes a USB network connection.</li>
+<li>Accesses the selected storage devices.</li>
+<li>Reads the relevant storage partitions and QSPI data.</li>
+<li>Transfers the backup files to the host computer.</li>
+</ol>
+<p>The resulting backup is stored in:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>tools/backup_restore/images/
+</span></code></pre></div>
+<p>Do not disconnect the Jetson or interrupt its power supply during the operation. Verify that the operation did not exit with an error.</p>
+<h3 id="48-verify-the-backup">4.8 Verify the backup</h3>
+<p>Inspect the backup directory:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>sudo<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>tools/backup_restore/images/
+</span></code></pre></div>
+<p>Check the total size:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>sudo<span class="w"> </span>du<span class="w"> </span>-sh<span class="w"> </span>tools/backup_restore/images/
+</span></code></pre></div>
+<p>A typical NVMe backup may contain files similar to:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>images/
+</span><span id="__span-53-2"><a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>├── nvpartitionmap.txt
+</span><span id="__span-53-3"><a id="__codelineno-53-3" name="__codelineno-53-3" href="#__codelineno-53-3"></a>├── QSPI0.img
+</span><span id="__span-53-4"><a id="__codelineno-53-4" name="__codelineno-53-4" href="#__codelineno-53-4"></a>├── gptmbr.img
+</span><span id="__span-53-5"><a id="__codelineno-53-5" name="__codelineno-53-5" href="#__codelineno-53-5"></a>├── gptbackup.img
+</span><span id="__span-53-6"><a id="__codelineno-53-6" name="__codelineno-53-6" href="#__codelineno-53-6"></a>├── nvme0n1p1.tar.gz
+</span><span id="__span-53-7"><a id="__codelineno-53-7" name="__codelineno-53-7" href="#__codelineno-53-7"></a>├── nvme0n1p2_bak.img
+</span><span id="__span-53-8"><a id="__codelineno-53-8" name="__codelineno-53-8" href="#__codelineno-53-8"></a>├── nvme0n1p3_bak.img
+</span><span id="__span-53-9"><a id="__codelineno-53-9" name="__codelineno-53-9" href="#__codelineno-53-9"></a>└── ...
+</span></code></pre></div>
+<p>The exact names and number of files depend on the L4T version, partition layout, and backup tool implementation.</p>
+<p>Inspect the partition mapping file if present:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>sudo<span class="w"> </span>cat<span class="w"> </span>tools/backup_restore/images/nvpartitionmap.txt
+</span></code></pre></div>
+<p>Verify that:</p>
+<ul>
+<li>The backup script completed successfully.</li>
+<li>The partition mapping file exists.</li>
+<li>The referenced partition images exist.</li>
+<li>The expected NVMe filesystem backup exists.</li>
+<li>The expected QSPI backup exists.</li>
+<li>No transfer or storage errors were reported.</li>
+</ul>
+<p>The absence of a normal Linux directory hierarchy is expected.</p>
+<p>Directories such as <code>/home</code>, <code>/etc</code>, and <code>/usr</code> are stored inside the filesystem backup rather than directly in <code>images/</code>.</p>
+<h2 id="5-archiving-backups">5. Archiving backups</h2>
+<h3 id="51-general-principles">5.1 General principles</h3>
+<p>The NVIDIA backup tool uses a fixed working directory:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>tools/backup_restore/images/
+</span></code></pre></div>
+<p>It does not provide a complete backup version management system.</p>
+<p><strong>Treat this directory as a temporary workspace containing only one backup at a time.</strong></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Always archive the entire <code>images/</code> directory before starting another backup.</p>
+<p>Never mix partition images from different Jetsons or different backup dates.</p>
+<p>Never rename individual partition images, since their filenames may be referenced by the partition mapping file.</p>
+</div>
+<h3 id="52-recommended-directory-structure">5.2 Recommended directory structure</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>Jetson/
+</span><span id="__span-56-2"><a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>├── BSP/
+</span><span id="__span-56-3"><a id="__codelineno-56-3" name="__codelineno-56-3" href="#__codelineno-56-3"></a>│   ├── R36.4.4/
+</span><span id="__span-56-4"><a id="__codelineno-56-4" name="__codelineno-56-4" href="#__codelineno-56-4"></a>│   │   └── Linux_for_Tegra/
+</span><span id="__span-56-5"><a id="__codelineno-56-5" name="__codelineno-56-5" href="#__codelineno-56-5"></a>│   └── R36.5.0/
+</span><span id="__span-56-6"><a id="__codelineno-56-6" name="__codelineno-56-6" href="#__codelineno-56-6"></a>│       └── Linux_for_Tegra/
+</span><span id="__span-56-7"><a id="__codelineno-56-7" name="__codelineno-56-7" href="#__codelineno-56-7"></a>│
+</span><span id="__span-56-8"><a id="__codelineno-56-8" name="__codelineno-56-8" href="#__codelineno-56-8"></a>└── Backups/
+</span><span id="__span-56-9"><a id="__codelineno-56-9" name="__codelineno-56-9" href="#__codelineno-56-9"></a>    ├── Waveshare_IO_B/
+</span><span id="__span-56-10"><a id="__codelineno-56-10" name="__codelineno-56-10" href="#__codelineno-56-10"></a>    │   ├── 2026-11-24_R36.4.4_super_stable/
+</span><span id="__span-56-11"><a id="__codelineno-56-11" name="__codelineno-56-11" href="#__codelineno-56-11"></a>    │   │   ├── images/
+</span><span id="__span-56-12"><a id="__codelineno-56-12" name="__codelineno-56-12" href="#__codelineno-56-12"></a>    │   │   ├── metadata.txt
+</span><span id="__span-56-13"><a id="__codelineno-56-13" name="__codelineno-56-13" href="#__codelineno-56-13"></a>    │   │   ├── backup.log
+</span><span id="__span-56-14"><a id="__codelineno-56-14" name="__codelineno-56-14" href="#__codelineno-56-14"></a>    │   │   └── SHA256SUMS
+</span><span id="__span-56-15"><a id="__codelineno-56-15" name="__codelineno-56-15" href="#__codelineno-56-15"></a>    │   │
+</span><span id="__span-56-16"><a id="__codelineno-56-16" name="__codelineno-56-16" href="#__codelineno-56-16"></a>    │   └── 2026-12-01_R36.4.7_camera_update/
+</span><span id="__span-56-17"><a id="__codelineno-56-17" name="__codelineno-56-17" href="#__codelineno-56-17"></a>    │       ├── images/
+</span><span id="__span-56-18"><a id="__codelineno-56-18" name="__codelineno-56-18" href="#__codelineno-56-18"></a>    │       └── metadata.txt
+</span><span id="__span-56-19"><a id="__codelineno-56-19" name="__codelineno-56-19" href="#__codelineno-56-19"></a>    │
+</span><span id="__span-56-20"><a id="__codelineno-56-20" name="__codelineno-56-20" href="#__codelineno-56-20"></a>    └── Aerium_Helios/
+</span><span id="__span-56-21"><a id="__codelineno-56-21" name="__codelineno-56-21" href="#__codelineno-56-21"></a>        └── 2026-11-24_R36.4.7_standard/
+</span><span id="__span-56-22"><a id="__codelineno-56-22" name="__codelineno-56-22" href="#__codelineno-56-22"></a>            ├── images/
+</span><span id="__span-56-23"><a id="__codelineno-56-23" name="__codelineno-56-23" href="#__codelineno-56-23"></a>            ├── metadata.txt
+</span><span id="__span-56-24"><a id="__codelineno-56-24" name="__codelineno-56-24" href="#__codelineno-56-24"></a>            ├── backup.log
+</span><span id="__span-56-25"><a id="__codelineno-56-25" name="__codelineno-56-25" href="#__codelineno-56-25"></a>            └── SHA256SUMS
+</span></code></pre></div>
+<h3 id="53-archive-the-current-backup">5.3 Archive the current backup</h3>
+<p>Run from <code>Linux_for_Tegra</code>.</p>
+<p>Define the backup destination:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a><span class="nv">DEVICE_NAME</span><span class="o">=</span><span class="s2">"Waveshare_IO_B"</span>
+</span><span id="__span-57-2"><a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a><span class="nv">L4T_VERSION</span><span class="o">=</span><span class="s2">"R36.4.4"</span>
+</span><span id="__span-57-3"><a id="__codelineno-57-3" name="__codelineno-57-3" href="#__codelineno-57-3"></a><span class="nv">DESCRIPTION</span><span class="o">=</span><span class="s2">"super_stable"</span>
+</span><span id="__span-57-4"><a id="__codelineno-57-4" name="__codelineno-57-4" href="#__codelineno-57-4"></a>
+</span><span id="__span-57-5"><a id="__codelineno-57-5" name="__codelineno-57-5" href="#__codelineno-57-5"></a><span class="nv">BACKUP_DIR</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/Jetson/Backups/</span><span class="nv">$DEVICE_NAME</span><span class="s2">/</span><span class="k">$(</span>date<span class="w"> </span>+%F_%H%M%S<span class="k">)</span><span class="s2">_</span><span class="si">${</span><span class="nv">L4T_VERSION</span><span class="si">}</span><span class="s2">_</span><span class="si">${</span><span class="nv">DESCRIPTION</span><span class="si">}</span><span class="s2">"</span>
+</span></code></pre></div>
+<p>Create a new destination:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">"</span><span class="nv">$BACKUP_DIR</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span>
+</span><span id="__span-58-2"><a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>mkdir<span class="w"> </span><span class="s2">"</span><span class="nv">$BACKUP_DIR</span><span class="s2">"</span>
+</span></code></pre></div>
+<p>Move the complete backup directory:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>sudo<span class="w"> </span>mv<span class="w"> </span>tools/backup_restore/images<span class="w"> </span><span class="s2">"</span><span class="nv">$BACKUP_DIR</span><span class="s2">/"</span>
+</span></code></pre></div>
+<p>Verify that the files were moved successfully:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>sudo<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span><span class="s2">"</span><span class="nv">$BACKUP_DIR</span><span class="s2">/images/"</span>
+</span><span id="__span-60-2"><a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>sudo<span class="w"> </span>du<span class="w"> </span>-sh<span class="w"> </span><span class="s2">"</span><span class="nv">$BACKUP_DIR</span><span class="s2">/images/"</span>
+</span></code></pre></div>
+<p>Recreate the empty working directory:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-61-1"><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>tools/backup_restore/images
+</span></code></pre></div>
+<p>The NVIDIA backup tool is now ready to create another backup.</p>
+<h2 id="6-restore">6. Restore</h2>
+<div class="admonition danger">
+<p class="admonition-title">DESTRUCTIVE OPERATION</p>
+<p>THE RESTORE COMMAND USES <code>-r</code>.</p>
+<p>Before continuing:</p>
+<ul>
+<li>Physically identify the target Jetson.</li>
+<li>Disconnect every other Jetson.</li>
+<li>Verify that the target device contains no unprotected data.</li>
+<li>Create a backup of the target device if necessary.</li>
+<li>Verify the selected backup directory.</li>
+<li>Verify the board configuration and BSP.</li>
+<li>Verify the target storage capacity.</li>
+</ul>
+<p>Do not proceed unless the target device is intended to
+be overwritten.</p>
+</div>
+<h3 id="61-check-hardware-compatibility">6.1 Check hardware compatibility</h3>
+<p>The target Jetson should preferably have:</p>
+<ul>
+<li>The same Jetson module.</li>
+<li>The same carrier board.</li>
+<li>A compatible board configuration.</li>
+<li>The same storage device type.</li>
+<li>An SSD with equal or greater usable capacity.</li>
+<li>Compatible security and bootloader configurations.</li>
+</ul>
+<p>Restoration between devices with different Secure Boot or fuse configurations may require additional procedures.</p>
+<h3 id="62-select-the-backup">6.2 Select the backup</h3>
+<p>Enter the corresponding <code>Linux_for_Tegra</code> directory.</p>
+<p>Select the archived backup:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-62-1"><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="nv">BACKUP_DIR</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/Jetson/Backups/Jetson_A/&lt;backup-name&gt;"</span>
+</span></code></pre></div>
+<p>Replace <code>&lt;backup-name&gt;</code> with the actual archived directory name.</p>
+<p>Inspect the backup metadata:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-63-1"><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>cat<span class="w"> </span><span class="s2">"</span><span class="nv">$BACKUP_DIR</span><span class="s2">/metadata.txt"</span>
+</span></code></pre></div>
+<p>Inspect the images:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-64-1"><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>sudo<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span><span class="s2">"</span><span class="nv">$BACKUP_DIR</span><span class="s2">/images/"</span>
+</span></code></pre></div>
+<p>Verify the backup checksums if available:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-65-1"><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a><span class="o">(</span>
+</span><span id="__span-65-2"><a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a><span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$BACKUP_DIR</span><span class="s2">"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-65-3"><a id="__codelineno-65-3" name="__codelineno-65-3" href="#__codelineno-65-3"></a><span class="w">    </span>sudo<span class="w"> </span>sha256sum<span class="w"> </span>-c<span class="w"> </span>SHA256SUMS
+</span><span id="__span-65-4"><a id="__codelineno-65-4" name="__codelineno-65-4" href="#__codelineno-65-4"></a><span class="o">)</span>
+</span></code></pre></div>
+<h3 id="63-prepare-the-restore-directory">6.3 Prepare the restore directory</h3>
+<p>Ensure that the NVIDIA working directory is empty:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-66-1"><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>sudo<span class="w"> </span>ls<span class="w"> </span>-lah<span class="w"> </span>tools/backup_restore/images/
+</span></code></pre></div>
+<p>If files are present, archive them before continuing.</p>
+<p>Copy the selected backup into the working directory:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-67-1"><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>tools/backup_restore/images
+</span></code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-68-1"><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>sudo<span class="w"> </span>rsync<span class="w"> </span>-a<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-68-2"><a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a><span class="w">    </span><span class="s2">"</span><span class="nv">$BACKUP_DIR</span><span class="s2">/images/"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-68-3"><a id="__codelineno-68-3" name="__codelineno-68-3" href="#__codelineno-68-3"></a><span class="w">    </span>tools/backup_restore/images/
+</span></code></pre></div>
+<p>Verify the destination:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-69-1"><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>sudo<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>tools/backup_restore/images/
+</span></code></pre></div>
+<p>Do not proceed if the working directory contains files from another backup.</p>
+<p>Copy the backup rather than moving it. This preserves the original archived backup if the restoration fails.</p>
+<h3 id="64-connect-the-target-jetson">6.4 Connect the target Jetson</h3>
+<ol>
+<li>Shut down the target Jetson.</li>
+<li>Disconnect any other Jetson devices.</li>
+<li>Connect the target Jetson to the host.</li>
+<li>Enter Force Recovery Mode.</li>
+<li>Verify the USB connection:</li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-70-1"><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>lsusb<span class="w"> </span>-d<span class="w"> </span><span class="m">0955</span>:
+</span></code></pre></div>
+<p>Ensure that only one Jetson in recovery mode is detected.</p>
+<h3 id="65-restore-command-syntax">6.5 Restore command syntax</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-71-1"><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>sudo<span class="w"> </span>./tools/backup_restore/l4t_backup_restore.sh<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-71-2"><a id="__codelineno-71-2" name="__codelineno-71-2" href="#__codelineno-71-2"></a><span class="w">    </span>-e<span class="w"> </span>&lt;storage-device&gt;<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-71-3"><a id="__codelineno-71-3" name="__codelineno-71-3" href="#__codelineno-71-3"></a><span class="w">    </span>-r<span class="w"> </span>&lt;board-name&gt;
+</span></code></pre></div>
+<h3 id="66-example-restore-standard-configuration">6.6 Example – Restore standard configuration</h3>
+<div class="admonition danger">
+<p class="admonition-title">Caution</p>
+<p>The following command overwrites the target Jetson.</p>
+</div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-72-1"><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>sudo<span class="w"> </span>./tools/backup_restore/l4t_backup_restore.sh<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-72-2"><a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a><span class="w">    </span>-e<span class="w"> </span>nvme0n1<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-72-3"><a id="__codelineno-72-3" name="__codelineno-72-3" href="#__codelineno-72-3"></a><span class="w">    </span>-r<span class="w"> </span>jetson-orin-nano-devkit
+</span></code></pre></div>
+<h3 id="67-example-restore-super-configuration">6.7 Example – Restore Super configuration</h3>
+<div class="admonition danger">
+<p class="admonition-title">Caution</p>
+<p>The following command overwrites the target Jetson.</p>
+</div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-73-1"><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>sudo<span class="w"> </span>./tools/backup_restore/l4t_backup_restore.sh<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-73-2"><a id="__codelineno-73-2" name="__codelineno-73-2" href="#__codelineno-73-2"></a><span class="w">    </span>-e<span class="w"> </span>nvme0n1<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-73-3"><a id="__codelineno-73-3" name="__codelineno-73-3" href="#__codelineno-73-3"></a><span class="w">    </span>-r<span class="w"> </span>jetson-orin-nano-devkit-super
+</span></code></pre></div>
+<p>After the restore operation completes:</p>
+<ol>
+<li>Exit Force Recovery Mode.</li>
+<li>Reboot or power-cycle the Jetson as required.</li>
+<li>Verify that the operating system boots.</li>
+<li>Log in to the restored system.</li>
+<li>Verify the hardware and software configuration.</li>
+</ol>
+<p>For Jetsons equipped with CSI or USB cameras:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-74-1"><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>v4l2-ctl<span class="w"> </span>--list-devices
+</span></code></pre></div>
+<p>Additionally, verify:</p>
+<ul>
+<li>Camera drivers.</li>
+<li>Device tree overlays.</li>
+<li>Network interfaces.</li>
+<li>Wi-Fi connectivity.</li>
+<li>CUDA and TensorRT applications.</li>
+<li>Custom applications.</li>
+<li>Docker containers.</li>
+<li>Startup scripts.</li>
+<li>System services.</li>
+<li>Peripheral communication.</li>
+</ul>
+<p>If the restored device will operate alongside the original, check for duplicated machine-specific settings:</p>
+<ul>
+<li>Hostname.</li>
+<li>Static IP addresses.</li>
+<li>Machine ID.</li>
+<li>SSH host keys.</li>
+<li>Device identifiers used by applications.</li>
+<li>Network credentials and certificates.</li>
+</ul>
+<p>Do not blindly regenerate application-specific identifiers without checking their dependencies.</p>
+<h2 id="7-common-problems-and-troubleshooting">7. Common problems and troubleshooting</h2>
+<h3 id="71-usb-write-timeout-during-rcm-boot">7.1 USB write timeout during RCM boot</h3>
+<p>Typical error:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-75-1"><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>Entering RCM boot
+</span><span id="__span-75-2"><a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a>Sending bct_br
+</span><span id="__span-75-3"><a id="__codelineno-75-3" name="__codelineno-75-3" href="#__codelineno-75-3"></a>ERROR: might be timeout in USB write.
+</span><span id="__span-75-4"><a id="__codelineno-75-4" name="__codelineno-75-4" href="#__codelineno-75-4"></a>Error: Return value 3
+</span></code></pre></div>
+<p>This occurs during the early recovery boot process, before the backup environment accesses the SSD.</p>
+<p>Possible causes:</p>
+<ul>
+<li>USB autosuspend.</li>
+<li>Unreliable USB cable.</li>
+<li>USB hub.</li>
+<li>Host USB controller.</li>
+<li>Insufficient or unstable power supply.</li>
+<li>Carrier board USB implementation.</li>
+<li>Incorrect recovery configuration.</li>
+</ul>
+<p>First, disable USB autosuspend on the host:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-76-1"><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a><span class="nb">echo</span><span class="w"> </span>-1<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/module/usbcore/parameters/autosuspend
+</span></code></pre></div>
+<p>Disconnect the USB cable, power-cycle the Jetson, and enter Force Recovery Mode again.</p>
+<p>Reconnect the USB cable and retry.</p>
+<p>This solution has been successfully tested on one of our Jetson Orin NX devices.</p>
+<p>If the problem persists:</p>
+<ul>
+<li>Try a different USB cable.</li>
+<li>Try another USB port.</li>
+<li>Remove any USB hubs.</li>
+<li>Try another Linux host.</li>
+<li>Verify the BSP and carrier board configuration.</li>
+</ul>
+<h3 id="72-usbfs-memory-limit">7.2 USBFS memory limit</h3>
+<p>For USB transfer failures, particularly during larger transfers, increasing the USBFS memory limit may help.</p>
+<p>Check the current value:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-77-1"><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a>cat<span class="w"> </span>/sys/module/usbcore/parameters/usbfs_memory_mb
+</span></code></pre></div>
+<p>Temporarily increase the limit:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-78-1"><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a><span class="nb">echo</span><span class="w"> </span><span class="m">2048</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/module/usbcore/parameters/usbfs_memory_mb
+</span></code></pre></div>
+<p>This sets the limit to 2048 MB.</p>
+<p>This is a troubleshooting workaround rather than a mandatory configuration step.</p>
+<h3 id="73-jetson-not-detected-in-recovery-mode">7.3 Jetson not detected in recovery mode</h3>
+<p>Check USB detection:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-79-1"><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>lsusb<span class="w"> </span>-d<span class="w"> </span><span class="m">0955</span>:
+</span></code></pre></div>
+<p>Check the USB topology:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-80-1"><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a>lsusb<span class="w"> </span>-t
+</span></code></pre></div>
+<p>Monitor kernel messages:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-81-1"><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>sudo<span class="w"> </span>dmesg<span class="w"> </span>-wH
+</span></code></pre></div>
+<p>Possible causes:</p>
+<ul>
+<li>Jetson is not in Force Recovery Mode.</li>
+<li>Incorrect recovery USB port.</li>
+<li>Charge-only USB cable.</li>
+<li>Insufficient power supply.</li>
+<li>Incorrect recovery button sequence.</li>
+<li>USB connection failure.</li>
+</ul>
+<p>Consult the carrier board documentation.</p>
+<h3 id="74-nfs-server-is-not-running">7.4 NFS server is not running</h3>
+<p>Check the NFS server:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-82-1"><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>systemctl<span class="w"> </span>status<span class="w"> </span>nfs-kernel-server
+</span></code></pre></div>
+<p>Start it:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-83-1"><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nfs-kernel-server
+</span></code></pre></div>
+<p>If necessary, inspect exported directories:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-84-1"><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a>sudo<span class="w"> </span>exportfs<span class="w"> </span>-v
+</span></code></pre></div>
+<p>The backup tool uses NFS to transfer files between the temporary recovery environment and the host.</p>
+<h2 id="8-additional-workflows">8. Additional workflows</h2>
+<h3 id="81-massflash">8.1 Massflash</h3>
+<p>The NVIDIA backup tool also supports preparing a backup for deployment to multiple Jetson devices.</p>
+<p>This is useful for:</p>
+<ul>
+<li>Fleet deployment.</li>
+<li>Manufacturing.</li>
+<li>Reproducing a validated system configuration.</li>
+<li>Flashing several identical devices concurrently.</li>
+</ul>
+<p>The general procedure is:</p>
+<ol>
+<li>Create a backup and convert it into an initrd flash image.</li>
+<li>Generate a massflash package using the backup image.</li>
+<li>Connect the target devices in Force Recovery Mode.</li>
+<li>Flash the target devices using the generated package.</li>
+</ol>
+<p>Consult the backup restore README and initrd flash README included with the specific BSP version.</p>
+<p>For a small number of Jetsons, standard backup and restore operations are usually simpler.</p>
+<h3 id="82-raw-disk-images">8.2 Raw disk images</h3>
+<p>A raw storage image can also be created using <code>dd</code>.</p>
+<p>For example:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-85-1"><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a>sudo<span class="w"> </span>dd<span class="w"> </span><span class="k">if</span><span class="o">=</span>/dev/nvme0n1<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-85-2"><a id="__codelineno-85-2" name="__codelineno-85-2" href="#__codelineno-85-2"></a><span class="w">    </span><span class="nv">of</span><span class="o">=</span>jetson_nvme_backup.img<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-85-3"><a id="__codelineno-85-3" name="__codelineno-85-3" href="#__codelineno-85-3"></a><span class="w">    </span><span class="nv">bs</span><span class="o">=</span>4M<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-85-4"><a id="__codelineno-85-4" name="__codelineno-85-4" href="#__codelineno-85-4"></a><span class="w">    </span><span class="nv">status</span><span class="o">=</span>progress<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-85-5"><a id="__codelineno-85-5" name="__codelineno-85-5" href="#__codelineno-85-5"></a><span class="w">    </span><span class="nv">conv</span><span class="o">=</span>fsync
+</span></code></pre></div>
+<p>This should be performed from an offline or otherwise quiescent storage device to avoid filesystem inconsistencies.</p>
+<p>A raw NVMe image contains the entire NVMe device, including its partition table and unused space.</p>
+<p>However, it does not automatically contain the Jetson's separate QSPI memory.</p>
+<p>NVIDIA also provides a raw-image restore workflow for supported eMMC configurations.</p>
+<p>Do not assume that the eMMC raw-image restore procedure supports NVMe storage without verifying the documentation.</p>
+<div class="admonition danger">
+<p class="admonition-title">Caution</p>
+<p>Reversing the <code>if</code> and <code>of</code> arguments of <code>dd</code> can permanently overwrite the original storage device.</p>
+</div>
+<h2 id="9-restore-normal-host-configuration">9. Restore normal host configuration</h2>
+<p>After completing all operations, restart the automatic mounting service:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-86-1"><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>udisks2.service
+</span></code></pre></div>
+<p>Restore the original USB autosuspend and USBFS memory settings if they were modified.</p>
+<p>Alternatively, rebooting the host normally resets these temporary kernel parameter changes.</p>
+<p>If the NFS server was started exclusively for this operation, and no other users or services require it, it can be stopped:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-87-1"><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>nfs-kernel-server
+</span></code></pre></div>
+<h2 id="10-quick-reference">10. Quick reference</h2>
+<h3 id="identify-the-jetson">Identify the Jetson</h3>
+<p>Run on the Jetson:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-88-1"><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a>cat<span class="w"> </span>/proc/device-tree/compatible<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">'\0'</span><span class="w"> </span><span class="s1">'\n'</span>
+</span><span id="__span-88-2"><a id="__codelineno-88-2" name="__codelineno-88-2" href="#__codelineno-88-2"></a>cat<span class="w"> </span>/etc/nv_boot_control.conf
+</span><span id="__span-88-3"><a id="__codelineno-88-3" name="__codelineno-88-3" href="#__codelineno-88-3"></a>cat<span class="w"> </span>/etc/nv_tegra_release
+</span><span id="__span-88-4"><a id="__codelineno-88-4" name="__codelineno-88-4" href="#__codelineno-88-4"></a>uname<span class="w"> </span>-r
+</span><span id="__span-88-5"><a id="__codelineno-88-5" name="__codelineno-88-5" href="#__codelineno-88-5"></a>lsblk
+</span></code></pre></div>
+<h3 id="prepare-the-host">Prepare the host</h3>
+<p>Run on the host:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-89-1"><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>udisks2.service
+</span><span id="__span-89-2"><a id="__codelineno-89-2" name="__codelineno-89-2" href="#__codelineno-89-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>nfs-kernel-server
+</span><span id="__span-89-3"><a id="__codelineno-89-3" name="__codelineno-89-3" href="#__codelineno-89-3"></a>
+</span><span id="__span-89-4"><a id="__codelineno-89-4" name="__codelineno-89-4" href="#__codelineno-89-4"></a><span class="nb">echo</span><span class="w"> </span>-1<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/sys/module/usbcore/parameters/autosuspend
+</span></code></pre></div>
+<h3 id="verify-recovery-mode">Verify recovery mode</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-90-1"><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a>lsusb<span class="w"> </span>-d<span class="w"> </span><span class="m">0955</span>:
+</span></code></pre></div>
+<h3 id="backup">Backup</h3>
+<p>NON-DESTRUCTIVE BACKUP OPERATION:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-91-1"><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a>sudo<span class="w"> </span>./tools/backup_restore/l4t_backup_restore.sh<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-91-2"><a id="__codelineno-91-2" name="__codelineno-91-2" href="#__codelineno-91-2"></a><span class="w">    </span>-e<span class="w"> </span>nvme0n1<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-91-3"><a id="__codelineno-91-3" name="__codelineno-91-3" href="#__codelineno-91-3"></a><span class="w">    </span>-b<span class="w"> </span>jetson-orin-nano-devkit-super
+</span></code></pre></div>
+<h3 id="archive">Archive</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-92-1"><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a><span class="nv">BACKUP_DIR</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/Jetson/Backups/</span><span class="k">$(</span>date<span class="w"> </span>+%F_%H%M%S<span class="k">)</span><span class="s2">"</span>
+</span><span id="__span-92-2"><a id="__codelineno-92-2" name="__codelineno-92-2" href="#__codelineno-92-2"></a>
+</span><span id="__span-92-3"><a id="__codelineno-92-3" name="__codelineno-92-3" href="#__codelineno-92-3"></a>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">"</span><span class="nv">$BACKUP_DIR</span><span class="s2">"</span>
+</span><span id="__span-92-4"><a id="__codelineno-92-4" name="__codelineno-92-4" href="#__codelineno-92-4"></a>
+</span><span id="__span-92-5"><a id="__codelineno-92-5" name="__codelineno-92-5" href="#__codelineno-92-5"></a>sudo<span class="w"> </span>mv<span class="w"> </span>tools/backup_restore/images<span class="w"> </span><span class="s2">"</span><span class="nv">$BACKUP_DIR</span><span class="s2">/"</span>
+</span><span id="__span-92-6"><a id="__codelineno-92-6" name="__codelineno-92-6" href="#__codelineno-92-6"></a>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>tools/backup_restore/images
+</span></code></pre></div>
+<h3 id="restore">Restore</h3>
+<div class="admonition danger">
+<p class="admonition-title">Caution</p>
+<p>DESTRUCTIVE OPERATION – VERIFY THE TARGET DEVICE FIRST.</p>
+<p>Ensure that the desired backup is present in the working <code>images/</code> directory before executing this command.</p>
+</div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-93-1"><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a>sudo<span class="w"> </span>./tools/backup_restore/l4t_backup_restore.sh<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-93-2"><a id="__codelineno-93-2" name="__codelineno-93-2" href="#__codelineno-93-2"></a><span class="w">    </span>-e<span class="w"> </span>nvme0n1<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-93-3"><a id="__codelineno-93-3" name="__codelineno-93-3" href="#__codelineno-93-3"></a><span class="w">    </span>-r<span class="w"> </span>jetson-orin-nano-devkit-super
+</span></code></pre></div>
+<h2 id="12-references">12. References</h2>
+<h3 id="nvidia-official-documentation">NVIDIA official documentation</h3>
+<ul>
+<li>
+<p>Jetson Linux Archive:
+  https://developer.nvidia.com/embedded/jetson-linux-archive</p>
+</li>
+<li>
+<p>JetPack Archive:
+  https://developer.nvidia.com/embedded/jetpack-archive</p>
+</li>
+<li>
+<p>Jetson Linux R36.4.4:
+  https://developer.nvidia.com/embedded/jetson-linux-r3644</p>
+</li>
+<li>
+<p>Jetson Linux Flashing Support:
+  https://docs.nvidia.com/jetson/archives/r36.4.4/DeveloperGuide/SD/FlashingSupport.html</p>
+</li>
+<li>
+<p>Jetson Linux Quick Start:
+  https://docs.nvidia.com/jetson/archives/r36.4.4/DeveloperGuide/IN/QuickStart.html</p>
+</li>
+<li>
+<p>NVIDIA SDK Manager:
+  https://developer.nvidia.com/sdk-manager</p>
+</li>
+<li>
+<p>NVIDIA SDK Manager Documentation:
+  https://docs.nvidia.com/sdk-manager/</p>
+</li>
+</ul>
+<h3 id="local-bsp-documentation">Local BSP documentation</h3>
+<ul>
+<li><code>Linux_for_Tegra/tools/backup_restore/README_backup_restore.txt</code></li>
+<li><code>Linux_for_Tegra/tools/kernel_flash/README_initrd_flash.txt</code></li>
+</ul>
+<h3 id="troubleshooting-references">Troubleshooting references</h3>
+<ul>
+<li>
+<p>NVIDIA Jetson AGX Orin FAQ:
+  https://forums.developer.nvidia.com/t/jetson-agx-orin-faq/237459</p>
+</li>
+<li>
+<p>R36.4.7 security update announcement:
+  https://forums.developer.nvidia.com/t/jetpack-releases-with-security-fixes-cve-2025-33182-cve-2025-33177/347680</p>
+</li>
+<li>
+<p>NVIDIA Developer Forums:
+  https://forums.developer.nvidia.com/</p>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 DRC Wiki (brought to you by <a href='https://github.com/omichalcik'>Onřej Michalčík</a>)
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/BUT-DRONE-RESEARCH-CENTER" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["content.code.copy"], "search": "../../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
